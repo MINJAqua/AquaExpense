@@ -2,17 +2,20 @@
   display: flex;
 }
 
-.navbar {
+/* Sidebar CSS */
+.sidebar {
   flex: 1;
   border-right: 0.5px solid rgb(229, 228, 228) ;
+  min-height: 100vh;
+  background-color: white;
 }
 
-.navbar hr {
+.sidebar hr {
   height: 0%;
   border: 0.5px solid rgb(229, 228, 228) ;
 }
 
-.top{
+.top {
   height: 50px;
   display: flex;
   align-items: center;
@@ -24,6 +27,49 @@
   font-weight: bold;
   color: rgb(49, 199, 248)
 }
+
+.center {
+  padding-left: 10px;
+}
+
+.center ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.center li {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.icon {
+  font-size: 18px;
+  color: rgb(85, 221, 239);
+}
+
+.center li:hover {
+  background-color: rgb(226, 251, 254);
+}
+
+.title {
+  font-size: 10px;
+  font-weight: bold;
+  color: #999;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.link {
+  text-decoration: none;
+  color: #888;
+  font-weight: 600;
+  font-size: 13px;
+  margin-left: 10px;
+}
+/* Sidebar CSS */
+
 
 .container {
   flex: 6;

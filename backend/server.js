@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/expense", require("./routes/expenseRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/create_link_token", require("./routes/plaid"));
 
 app.use(errorHandler);
 

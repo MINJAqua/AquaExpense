@@ -17,7 +17,7 @@ import axios from "../axios";
 
 const USER_REGEX = /^[A-z][A-z]$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const SIGNUP_URL = "/api/users";
+const SIGNUP_URL = "http://localhost:8000/api/users";
 
 const SignUp = () => {
   const paperStyle = {
@@ -56,15 +56,15 @@ const SignUp = () => {
 
   useEffect(() => {
     const result = USER_REGEX.test(user);
-    console.log(result);
-    console.log(user);
+    // console.log(result);
+    // console.log(user);
     setValidName(result);
   }, [user]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(password);
-    console.log(result);
-    console.log(password);
+    // console.log(result);
+    // console.log(password);
     setValidPwd(result);
     const match = password === matchPwd;
     setValidMatch(match);

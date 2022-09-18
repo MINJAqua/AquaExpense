@@ -11,10 +11,14 @@ import {
   Link,
 } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
-
+import axios from "../axios";
 import { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const SIGNUP_URL = "http://localhost:8000/api/users/login";
 
 const Login = () => {
+  const navigate = useNavigate();
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -27,11 +31,13 @@ const Login = () => {
   };
   const userRef = useRef();
 
-  const [user, setUser] = useState("");
-  const [pwd, setPwd] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const [loginFail, setLoginFail] = useState(false);
 
   useEffect(() => {
     userRef.current.focus();
@@ -39,9 +45,35 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user, pwd);
-    setSuccess(true);
+
+    try {
+      const response = await axios.post(
+        SIGNUP_URL,
+        JSON.stringify({ email, password }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      //The token stored in localStorage is a jwt token,
+      //NOT the public token from plaid
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('email', response.data.email)
+      navigate('/plaid')
+
+    } catch (error) {
+      setLoginFail(true);
+    }
   };
+
+  const loginCheck = () => {
+    if (loginFail) {
+      return (
+        <div className="login-fail">*Incorrect username or password*</div>
+      )
+    }
+  }
 
   return (
     <>
@@ -70,7 +102,7 @@ const Login = () => {
               placeholder="Enter username"
               htmlFor="username"
               required
-              onChange={(e) => setUser(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               style={{ margin: "20px 0px" }}
@@ -81,7 +113,7 @@ const Login = () => {
               placeholder="Enter password"
               required
               htmlFor="password"
-              onChange={(e) => setPwd(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox name="checkedB" color="primary" />}
@@ -99,6 +131,7 @@ const Login = () => {
             >
               Sign In
             </Button>
+            {loginCheck()}
 
             <Typography>
               {/* Link to reset password */}
@@ -106,7 +139,7 @@ const Login = () => {
             </Typography>
 
             <Typography>
-              Do you have an account
+              Don't you have an account?
               {/* link to signup page */}
               <Link href="#"> Sign-Up</Link>
             </Typography>

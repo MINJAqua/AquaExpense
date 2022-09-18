@@ -24,7 +24,7 @@ const Sidebar = () => {
           <p className='title'>MAIN</p>
           <li>
             <DashboardIcon className='icon'/>
-            <Link className="link" to="/">
+            <Link className="link" to="/Dashboard">
               Dashboard
             </Link>
           </li>
@@ -100,8 +100,8 @@ const Sidebar = () => {
           </li>
           <li>
             <LoginIcon className='icon'/>
-          <Link className="link" to="/login">
-              Login
+          <Link className="link" to="/">
+              Logout
             </Link>
           </li>
           <li>

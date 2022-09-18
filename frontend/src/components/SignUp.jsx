@@ -14,12 +14,14 @@ import LockIcon from "@mui/icons-material/Lock";
 import InfoIcon from "@mui/icons-material/Info";
 import { useRef, useState, useEffect } from "react";
 import axios from "../axios";
+import { useNavigate } from "react-router-dom";
 
 const USER_REGEX = /^[A-z][A-z]$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const SIGNUP_URL = "http://localhost:8000/api/users";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -98,8 +100,9 @@ const SignUp = () => {
         }
       );
 
-      //console.log(response );
-      setSuccess(true);
+      console.log(response );
+      // setSuccess(true);
+      navigate('/login')
     } catch (error) {
       //i think we write the logic for giving a user already exists error in here
       setEmailTaken(true)

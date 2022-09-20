@@ -8,7 +8,8 @@ const {
 } = require("../controllers/plaidController");
 
 router.post("/", createToken);
-router.post("/transactions/get", getTransactions);
-router.post("/items/public_token/exchange", getAccessToken);
+router.post("/exchange", getAccessToken);
+
+router.get("/transactions", getTransactions);
 
 module.exports = router;

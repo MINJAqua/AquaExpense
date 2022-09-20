@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
+const moment = require("moment");
 const User = require("../models/userModel");
 const { Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
+
 const configuration = new Configuration({
   basePath: PlaidEnvironments.sandbox,
   baseOptions: {
@@ -52,63 +54,41 @@ const createToken = asyncHandler(async (req, res) => {
 //stored in out local storage for an access token
 
 const getAccessToken = asyncHandler(async (req, res) => {
+  const { email, publicToken } = req.body;
+  console.log(req.body);
+
+  const request = {
+    public_token: publicToken,
+  };
+
   try {
-    console.log("req.body = ", req.body);
-    const exchangeResponse = await plaidClient.itemPublicTokenExchange({
-      public_token: req.body.public_token,
-    });
+    const response = await plaidClient.itemPublicTokenExchange(request);
+    const responseData = response.data;
 
-    // FOR DEMO PURPOSES ONLY
-    // You should really store access tokens in a database that's tied to your
-    // authenticated user id.
-    console.log(`Exchange response: ${JSON.stringify(exchangeResponse.data)}`);
+    await User.findOneAndUpdate(
+      { email: email },
+      { access_token: response.data.access_token }
+    );
 
-    res.json("true");
-  } catch (err) {
-    console.log(err);
+    //console.log(responseData);
+    res.send(responseData);
+  } catch (error) {
+    console.log(error);
   }
 });
 
 const getTransactions = asyncHandler(async (req, res) => {
-  const access_token = req.session.access_token;
+  const access_token = "access-sandbox-132460ac-f669-4234-bce2-235715ee3d84";
   const startDate = moment().subtract(30, "days").format("YYYY-MM-DD");
   const endDate = moment().format("YYYY-MM-DD");
 
-  const transactionResponse = await client.transactionsGet({
+  const transactionResponse = await plaidClient.transactionsGet({
     access_token: access_token,
     start_date: startDate,
     end_date: endDate,
     options: { count: 10 },
   });
   res.json(transactionResponse.data);
-  // const request = {
-  //   access_token: accessToken,
-  //   start_date: '2018-01-01',
-  //   end_date: '2020-02-01'
-  // };
-  // try {
-  //   const response = await client.transactionsGet(request);
-  //   let transactions = response.data.transactions;
-  //   const total_transactions = response.data.total_transactions;
-  //   // Manipulate the offset parameter to paginate
-  //   // transactions and retrieve all available data
-  //   while (transactions.length < total_transactions) {
-  //     const paginatedRequest: TransactionsGetRequest = {
-  //       access_token: accessToken,
-  //       start_date: '2018-01-01',
-  //       end_date: '2020-02-01',
-  //       options: {
-  //         offset: transactions.length,
-  //       },
-  //     };
-  //     const paginatedResponse = await client.transactionsGet(paginatedRequest);
-  //     transactions = transactions.concat(
-  //       paginatedResponse.data.transactions,
-  //     );
-  //   }
-  // } catch((err) => {
-  //   // handle error
-  // }
 });
 
 module.exports = { createToken, getTransactions, getAccessToken };

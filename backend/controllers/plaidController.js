@@ -6,7 +6,7 @@ const configuration = new Configuration({
   baseOptions: {
     headers: {
       "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-      "PLAID-SECRET": process.env.SECRET,
+      "PLAID-SECRET": process.env.PLAID_SECRET,
       "Plaid-Version": "2020-09-14",
     },
   },
@@ -48,20 +48,39 @@ const createToken = asyncHandler(async (req, res) => {
   }
 });
 
+//Finally works and exchanges public token
+//stored in out local storage for an access token
+
 const getAccessToken = asyncHandler(async (req, res) => {
-  // const request: ItemPublicTokenExchangeRequest = {
-  //   public_token: publicToken,
-  // };
-  // try {
-  //   const response = await plaidClient.itemPublicTokenExchange(request);
-  //   const accessToken = response.data.access_token;
-  //   const itemId = response.data.item_id;
-  // } catch (err) {
-  //   // handle error
-  // }
+  try {
+    console.log("req.body = ", req.body);
+    const exchangeResponse = await plaidClient.itemPublicTokenExchange({
+      public_token: req.body.public_token,
+    });
+
+    // FOR DEMO PURPOSES ONLY
+    // You should really store access tokens in a database that's tied to your
+    // authenticated user id.
+    console.log(`Exchange response: ${JSON.stringify(exchangeResponse.data)}`);
+
+    res.json("true");
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 const getTransactions = asyncHandler(async (req, res) => {
+  const access_token = req.session.access_token;
+  const startDate = moment().subtract(30, "days").format("YYYY-MM-DD");
+  const endDate = moment().format("YYYY-MM-DD");
+
+  const transactionResponse = await client.transactionsGet({
+    access_token: access_token,
+    start_date: startDate,
+    end_date: endDate,
+    options: { count: 10 },
+  });
+  res.json(transactionResponse.data);
   // const request = {
   //   access_token: accessToken,
   //   start_date: '2018-01-01',

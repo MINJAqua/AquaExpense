@@ -52,7 +52,7 @@ const SignUp = () => {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const [emailTaken, setEmailTaken] = useState(false)
+  const [emailTaken, setEmailTaken] = useState(false);
 
   useEffect(() => {
     userRef.current.focus();
@@ -100,25 +100,25 @@ const SignUp = () => {
         }
       );
 
-      console.log(response );
+      console.log(response);
       // setSuccess(true);
-      navigate('/login')
+      navigate("/");
     } catch (error) {
       //i think we write the logic for giving a user already exists error in here
-      setEmailTaken(true)
-      console.log(error, 'can you see me?');
+      setEmailTaken(true);
+      console.log(error, "can you see me?");
     }
 
-    console.log('finished running handle submit function');
+    console.log("finished running handle submit function");
   };
 
   const emailCheck = () => {
     if (emailTaken) {
       return (
-        <div className='email-taken'>*This email has already been taken*</div>
-      )
+        <div className="email-taken">*This email has already been taken*</div>
+      );
     }
-  }
+  };
   return (
     <>
       {success ? (

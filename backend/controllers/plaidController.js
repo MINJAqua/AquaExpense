@@ -78,7 +78,9 @@ const getAccessToken = asyncHandler(async (req, res) => {
 });
 
 const getTransactions = asyncHandler(async (req, res) => {
-  const access_token = "access-sandbox-132460ac-f669-4234-bce2-235715ee3d84";
+  const user = await User.findOne({ email: req.body.email });
+
+  const access_token = user.access_token;
   const startDate = moment().subtract(30, "days").format("YYYY-MM-DD");
   const endDate = moment().format("YYYY-MM-DD");
 

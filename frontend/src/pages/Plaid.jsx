@@ -11,40 +11,55 @@ import {
 //use these varibles when making an axios request to avoid long url
 const transactionsEndpoint =
   "http://localhost:8000/api/create_link_token/transactions/get";
-const accessTokenEndpoint =
-  "http://localhost:8000/api/create_link_token/items/public_token/exchange";
+const accessTokenEndpoint = "http://localhost:8000/api/plaid/exchange";
 
 const PlaidLink = () => {
   const [token, setToken] = useState(null);
   const email = localStorage.email;
 
+  const [accessToken, setAccess_Token] = useState("");
+
   // get a link_token from your API when component mounts
+  const createLinkToken = async () => {
+    try {
+      const response = await axios.post("/api/plaid", { email });
+      const link_token = response.data.link_token;
+      console.log("Your link_token is", link_token);
+      setToken(link_token);
+    } catch (error) {
+      console.log(error, "YOU FAILED TO GET A TOKEN");
+    }
+  };
+
+  const exchangeToken = async (publicToken) => {
+    const email = localStorage.email;
+    console.log(publicToken);
+    try {
+      const response = await axios.post(accessTokenEndpoint, {
+        publicToken,
+        email,
+      });
+      const responseData = response.data;
+      console.log("response data", responseData);
+
+      const access_Token = responseData.access_token;
+      setAccess_Token(access_Token);
+
+      // const itemId = responseData.item_id;
+      // setItem_Id(itemId)
+    } catch (error) {
+      console.log(error, "YOU FAILED TO GET ACCESS TOKEN");
+    }
+  };
+
   useEffect(() => {
-    const createLinkToken = async () => {
-      try {
-        const response = await axios.post("/api/create_link_token", { email });
-        const link_token = response.data.link_token;
-        console.log("Your link_token is", link_token);
-        setToken(link_token);
-      } catch (error) {
-        console.log(error, "YOU FAILED TO GET A TOKEN");
-      }
-    };
     createLinkToken();
   }, []);
 
   const onSuccess = useCallback((publicToken, metadata) => {
-    //meta data will contain all the information about the accounts you selected
-    console.log(publicToken, metadata);
+    console.log(publicToken);
 
-    // After we get our public token, we need to exchange it for an access token
-    // before we can make the request to get transactions. Check out the API docs
-    // to see how to hit the correct endpoint.
-    // https://plaid.com/docs/api/tokens/#itempublic_tokenexchange
-
-    //After we get our access token we need to call an axios request for transactions
-    //Check out the API docs to see how to hit the correct endpoint.
-    //https://plaid.com/docs/api/products/transactions/#transactionsget
+    exchangeToken(publicToken);
   }, []);
 
   const config = {

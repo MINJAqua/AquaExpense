@@ -58,10 +58,10 @@ const Login = () => {
 
       //The token stored in localStorage is a jwt token,
       //NOT the public token from plaid
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('email', response.data.email)
-      navigate('/plaid')
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("email", response.data.email);
 
+      navigate("/plaid");
     } catch (error) {
       setLoginFail(true);
     }
@@ -69,11 +69,9 @@ const Login = () => {
 
   const loginCheck = () => {
     if (loginFail) {
-      return (
-        <div className="login-fail">*Incorrect username or password*</div>
-      )
+      return <div className="login-fail">*Incorrect username or password*</div>;
     }
-  }
+  };
 
   return (
     <>

@@ -3,6 +3,20 @@ import axios from "../axios";
 import TransactionTable from '../components/TransactionTable';
 
 const Dashboard = () => {
+
+  //Hello Jun, sorry if my code is confusing but here is just a overview of how this dashbaord component works
+
+  // getTransactions grabs all the data from our transactions/get api call. We then set transactions state equal
+  // to only the transactions array from userTransactions. The state, accounts, is then set to the array of
+  // accounts that come from userTransactions. Finally, accountId is set to the first account_id inside inside of
+  // userTransactions as a defualt value.
+
+  // Now we just create child components and pass down our state values as props. If your compoent needs a new
+  // state, feel free to create new ones. Just a heads up that sometimes you might need to conditionally render
+  // your child componets because it takes time for state values to update.
+
+  // Good luck out there, and feel free to hit me up if you need help understanding my code!
+
   //array of all transactions from transactionResponse api call
   //default value is false because we are conditionally rendering TransactionTable child component
   const [transactions, setTransactions] = useState(false);

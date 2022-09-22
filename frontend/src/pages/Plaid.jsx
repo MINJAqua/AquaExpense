@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import axios from "../axios";
+import { useNavigate } from "react-router-dom";
 import {
   usePlaidLink,
   PlaidLinkOnSuccess,
@@ -11,13 +12,13 @@ import {
 //use these varibles when making an axios request to avoid long url
 const transactionsEndpoint =
   "http://localhost:8000/api/create_link_token/transactions/get";
-const accessTokenEndpoint = "http://localhost:8000/api/plaid/exchange";
+const exchangeTokenEndpoint = "http://localhost:8000/api/plaid/exchange";
 
 const PlaidLink = () => {
   const [token, setToken] = useState(null);
-  const email = localStorage.email;
-
   const [accessToken, setAccess_Token] = useState("");
+  const navigate = useNavigate();
+  const email = localStorage.email;
 
   // get a link_token from your API when component mounts
   const createLinkToken = async () => {
@@ -35,7 +36,7 @@ const PlaidLink = () => {
     const email = localStorage.email;
     console.log(publicToken);
     try {
-      const response = await axios.post(accessTokenEndpoint, {
+      const response = await axios.post(exchangeTokenEndpoint, {
         publicToken,
         email,
       });
@@ -45,8 +46,7 @@ const PlaidLink = () => {
       const access_Token = responseData.access_token;
       setAccess_Token(access_Token);
 
-      // const itemId = responseData.item_id;
-      // setItem_Id(itemId)
+      navigate('/dashboard')
     } catch (error) {
       console.log(error, "YOU FAILED TO GET ACCESS TOKEN");
     }

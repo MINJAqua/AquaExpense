@@ -53,7 +53,7 @@ const createToken = asyncHandler(async (req, res) => {
 //Finally works and exchanges public token
 //stored in out local storage for an access token
 
-const getAccessToken = asyncHandler(async (req, res) => {
+const exchangeToken = asyncHandler(async (req, res) => {
   const { email, publicToken } = req.body;
   console.log(req.body);
 
@@ -78,8 +78,9 @@ const getAccessToken = asyncHandler(async (req, res) => {
 });
 
 const getTransactions = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
-
+  console.log("getTransactions has been hit");
+  const { email } = req.query;
+  const user = await User.findOne({ email });
   const access_token = user.access_token;
   const startDate = moment().subtract(30, "days").format("YYYY-MM-DD");
   const endDate = moment().format("YYYY-MM-DD");
@@ -93,4 +94,4 @@ const getTransactions = asyncHandler(async (req, res) => {
   res.json(transactionResponse.data);
 });
 
-module.exports = { createToken, getTransactions, getAccessToken };
+module.exports = { createToken, getTransactions, exchangeToken };

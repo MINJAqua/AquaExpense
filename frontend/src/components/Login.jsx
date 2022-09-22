@@ -1,4 +1,9 @@
 import "../css/Login.css";
+import LockIcon from "@mui/icons-material/Lock";
+import axios from "../axios";
+import { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Grid,
   Paper,
@@ -8,12 +13,7 @@ import {
   Checkbox,
   Button,
   Typography,
-  Link,
 } from "@mui/material";
-import LockIcon from "@mui/icons-material/Lock";
-import axios from "../axios";
-import { useRef, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const SIGNUP_URL = "http://localhost:8000/api/users/login";
 
@@ -132,14 +132,15 @@ const Login = () => {
             {loginCheck()}
 
             <Typography>
-              {/* Link to reset password */}
-              <Link href="#">Forgot password?</Link>
+              {/* Link to reset password
+              <Link href="#">Forgot password?</Link> */}
             </Typography>
 
             <Typography>
-              Don't you have an account?
-              {/* link to signup page */}
-              <Link href="#"> Sign-Up</Link>
+              Don't have an account?
+              <Link className="signup-link" to="/signup">
+              Sign Up
+            </Link>
             </Typography>
           </Paper>
         </Grid>

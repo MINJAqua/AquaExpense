@@ -1,4 +1,10 @@
 import "../css/Signup.css";
+import LockIcon from "@mui/icons-material/Lock";
+import InfoIcon from "@mui/icons-material/Info";
+import { useRef, useState, useEffect } from "react";
+import axios from "../axios";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Grid,
   Paper,
@@ -8,13 +14,7 @@ import {
   Checkbox,
   Button,
   Typography,
-  Link,
 } from "@mui/material";
-import LockIcon from "@mui/icons-material/Lock";
-import InfoIcon from "@mui/icons-material/Info";
-import { useRef, useState, useEffect } from "react";
-import axios from "../axios";
-import { useNavigate } from "react-router-dom";
 
 const USER_REGEX = /^[A-z][A-z]$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -248,9 +248,10 @@ const SignUp = () => {
             </Button>
 
             <Typography>
-              Do you have already have an account
-              <Link href="#"> Sign-In</Link>
-              {/* React router link */}
+              Already have an account?
+              <Link className="login-link" to="/">
+              Login
+            </Link>
             </Typography>
           </Paper>
         </Grid>

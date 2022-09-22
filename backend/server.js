@@ -20,8 +20,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/expense", require("./routes/expenseRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
-
-//might need to consider changing this end point to just 'plaid'
 app.use("/api/plaid", require("./routes/plaid"));
 
 app.use(errorHandler);

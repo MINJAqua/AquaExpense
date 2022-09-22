@@ -3,13 +3,12 @@ const router = express.Router();
 
 const {
   createToken,
+  exchangeToken,
   getTransactions,
-  getAccessToken,
 } = require("../controllers/plaidController");
 
 router.post("/", createToken);
-router.post("/exchange", getAccessToken);
-
+router.post("/exchange", exchangeToken);
 router.get("/transactions", getTransactions);
 
 module.exports = router;

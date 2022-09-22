@@ -41,9 +41,9 @@ const Dashboard = () => {
     <div className='dashboard'>
       <div className='select-accounts-container'>
         <select className="select-accounts" onChange={handleChange}>
-          {accounts.map(account => {
+          {accounts.map((account, index) => {
             return (
-              <option value={account.account_id}>{account.name}</option>
+              <option value={account.account_id} key={index}>{account.name}</option>
             )
           })}
         </select>

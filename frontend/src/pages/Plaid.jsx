@@ -57,9 +57,10 @@ const PlaidLink = () => {
   }, []);
 
   const onSuccess = useCallback((publicToken, metadata) => {
-    console.log(publicToken);
+    //console.log(publicToken);
 
     exchangeToken(publicToken);
+    localStorage.setItem("render", true);
   }, []);
 
   const config = {

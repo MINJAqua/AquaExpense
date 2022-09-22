@@ -15,13 +15,13 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const sidebar = () => {
-    if (localStorage.length === 1) {
+    if (localStorage.render === "true") {
       return <Sidebar />;
     }
   };
 
   const navbar = () => {
-    if (localStorage.length === 1) {
+    if (localStorage.render === "true") {
       return <Navbar />;
     }
   };
@@ -30,11 +30,9 @@ function App() {
 
   return (
     <div className="App">
-      <Sidebar />
-      {/* {sidebar()} */}
+      {sidebar()}
       <div className="container">
-        <Navbar />
-        {/* {navbar()} */}
+        {navbar()}
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

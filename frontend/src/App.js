@@ -30,9 +30,11 @@ function App() {
 
   return (
     <div className="App">
-      {sidebar()}
+      <Sidebar />
+      {/* {sidebar()} */}
       <div className="container">
-        {navbar()}
+        <Navbar />
+        {/* {navbar()} */}
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

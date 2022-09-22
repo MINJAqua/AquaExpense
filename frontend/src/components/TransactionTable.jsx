@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 
 const TransactionTable = ({ transactions, accountId }) => {
   const [accountTransactions, setAccountTransactions] = useState([]);
-  console.log(transactions)
+  //console.log(transactions)
 
   const populateRows = () => {
     const allTransactions = transactions;

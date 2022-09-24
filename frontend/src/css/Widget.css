@@ -54,3 +54,8 @@
   border-radius: 5px;
   align-self: flex-end;
 }
+
+.widget-transactions {
+  font-size: 28px;
+  font-weight: 300;
+}

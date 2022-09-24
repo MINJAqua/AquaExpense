@@ -7,7 +7,19 @@ import BalanceIcon from '@mui/icons-material/Balance';
 
 
 
-const Widget = ({ type, widgetName }) => {
+const Widget = ({ type, widgetName, transactions, accountId }) => {
+  const totalTransactions = () => {
+    let count = 0;
+
+    transactions.forEach(transaction => {
+      if (transaction.account_id === accountId) {
+        count++;
+      }
+    })
+    console.log(count)
+    return count
+  };
+
   let data;
   let amount = 100;
 
@@ -29,6 +41,7 @@ const Widget = ({ type, widgetName }) => {
       case 'transactions':
       data = {
         title: 'TOTAL TRANSACTIONS',
+        count: totalTransactions(),
         isMoney: false,
         link: 'See all transactions',
         icon: (
@@ -61,6 +74,7 @@ const Widget = ({ type, widgetName }) => {
         <span className='widget-title'>{data.title}</span>
         {data.name ? <span className='widget-name'>{data.name}</span> : null}
         {data.isMoney ? <span className='widget-money'>$ {amount}</span> : null}
+        {data.count ? <span className='widget-transactions'>{data.count}</span> : null}
         <span className='widget-link'>{data.link}</span>
       </div>
       <div className='right'>

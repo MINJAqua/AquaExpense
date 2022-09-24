@@ -72,10 +72,9 @@ const Dashboard = () => {
         </select>
       </div>
       <div className='widgets'>
-        {widgetName ? <Widget type='account' accountId={accountId} widgetName={widgetName}/> : null}
-        {/* <Widget type='account' accountId={accountId} accounts={accounts}/> */}
-        {/* <Widget type='transactions' transactions={transactions} accountId={accountId}/>
-        <Widget type='balance' transactions={transactions} accountId={accountId}/> */}
+        {widgetName ? <Widget type='account' widgetName={widgetName}/> : null}
+        {accountId && transactions ? <Widget type='transactions' transactions={transactions} accountId={accountId}/> : null}
+        {/* <Widget type='balance' transactions={transactions} accountId={accountId}/> */}
       </div>
       {/* we must conditionally render our TransactionTable child component to wait for state to update, or else
       the props we send down will be undefined  */}

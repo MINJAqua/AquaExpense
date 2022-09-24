@@ -33,11 +33,10 @@ const Dashboard = () => {
   //set state equal to a new account being selected in the dropdown list
   const handleChange = (e) => {
     const handleChangeId = e.target.value.split(',')[0];
-    const handleChnageName = e.target.value.split(',')[1]
+    const handleChangeName = e.target.value.split(',')[1];
     //console.log(e.target.value.split(',')[0])
     setAccountId(handleChangeId);
-    setWidgetName(handleChnageName);
-
+    setWidgetName(handleChangeName);
   }
 
   useEffect(() => {
@@ -73,7 +72,7 @@ const Dashboard = () => {
         </select>
       </div>
       <div className='widgets'>
-        {accountId && widgetName ? <Widget type='account' accountId={accountId} widgetName={widgetName}/> : null}
+        {widgetName ? <Widget type='account' accountId={accountId} widgetName={widgetName}/> : null}
         {/* <Widget type='account' accountId={accountId} accounts={accounts}/> */}
         {/* <Widget type='transactions' transactions={transactions} accountId={accountId}/>
         <Widget type='balance' transactions={transactions} accountId={accountId}/> */}

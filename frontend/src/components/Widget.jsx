@@ -7,7 +7,7 @@ import BalanceIcon from '@mui/icons-material/Balance';
 
 
 
-const Widget = ({ type, accounts, widgetName }) => {
+const Widget = ({ type, widgetName }) => {
   let data;
   let amount = 100;
 

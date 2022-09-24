@@ -7,14 +7,15 @@ import BalanceIcon from '@mui/icons-material/Balance';
 
 
 
-const Widget = ({ type }) => {
+const Widget = ({ type, widgetName }) => {
   let data;
   let amount = 100;
+
   switch(type) {
     case 'account':
       data = {
         title: 'ACCOUNT',
-        name: 'Plaid Checking',
+        name: widgetName,
         isMoney: false,
         link: 'See all accounts',
         icon: (

@@ -26,11 +26,17 @@ const Dashboard = () => {
   const [accounts, setAccounts] = useState([]);
 
   //the accountId associated with the account name
-  const [accountId, setAccountId] = useState('')
+  const [accountId, setAccountId] = useState('');
+
+  const [widgetName, setWidgetName ] = useState('');
 
   //set state equal to a new account being selected in the dropdown list
   const handleChange = (e) => {
-    setAccountId(e.target.value)
+    const handleChangeId = e.target.value.split(',')[0];
+    const handleChangeName = e.target.value.split(',')[1];
+    //console.log(e.target.value.split(',')[0])
+    setAccountId(handleChangeId);
+    setWidgetName(handleChangeName);
   }
 
   useEffect(() => {
@@ -45,6 +51,7 @@ const Dashboard = () => {
 
         //Set the defualt value of accountId equal to the first account inside of userTransactions.accounts
         setAccountId(userTransactions.accounts[0].account_id)
+        setWidgetName(userTransactions.accounts[0].name)
       } catch (error) {
         console.log(error, "FAILED TO GET ACCESS TOKEN OR TRANSACTIONS");
       }
@@ -59,15 +66,16 @@ const Dashboard = () => {
         <select className="select-accounts" onChange={handleChange}>
           {accounts.map((account, index) => {
             return (
-              <option value={account.account_id} key={index}>{account.name}</option>
+              <option value={[account.account_id, account.name]} key={index}>{account.name}</option>
             )
           })}
         </select>
       </div>
       <div className='widgets'>
-        <Widget type='account'/>
-        <Widget type='transactions'/>
-        <Widget type='balance'/>
+        {widgetName ? <Widget type='account' accountId={accountId} widgetName={widgetName}/> : null}
+        {/* <Widget type='account' accountId={accountId} accounts={accounts}/> */}
+        {/* <Widget type='transactions' transactions={transactions} accountId={accountId}/>
+        <Widget type='balance' transactions={transactions} accountId={accountId}/> */}
       </div>
       {/* we must conditionally render our TransactionTable child component to wait for state to update, or else
       the props we send down will be undefined  */}

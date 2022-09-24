@@ -47,10 +47,10 @@ const TransactionTable = ({ transactions, accountId }) => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell className='tableCell'>Date</TableCell>
-              <TableCell className='tableCell'>Company</TableCell>
-              <TableCell className='tableCell'>Amount</TableCell>
-              <TableCell className='tableCell'>Status</TableCell>
+              <TableCell className='tableCell'>DATE</TableCell>
+              <TableCell className='tableCell'>COMPANY</TableCell>
+              <TableCell className='tableCell'>AMOUNT</TableCell>
+              <TableCell className='tableCell'>STATUS</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

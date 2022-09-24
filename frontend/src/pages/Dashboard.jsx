@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
 import TransactionTable from '../components/TransactionTable';
+import Widget from '../components/Widget';
 
 const Dashboard = () => {
 
@@ -38,6 +39,7 @@ const Dashboard = () => {
       try {
         const transactionsResponse = await axios.get("/api/plaid/transactions", {params: {email: email} });
         const userTransactions = transactionsResponse.data;
+        console.log(userTransactions)
         setTransactions(userTransactions.transactions);
         setAccounts(userTransactions.accounts);
 
@@ -61,6 +63,11 @@ const Dashboard = () => {
             )
           })}
         </select>
+      </div>
+      <div className='widgets'>
+        <Widget type='account'/>
+        <Widget type='transactions'/>
+        <Widget type='balance'/>
       </div>
       {/* we must conditionally render our TransactionTable child component to wait for state to update, or else
       the props we send down will be undefined  */}

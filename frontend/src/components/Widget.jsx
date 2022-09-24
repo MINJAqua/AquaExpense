@@ -16,8 +16,7 @@ const Widget = ({ type, widgetName, transactions, accountId }) => {
         count++;
       }
     })
-    console.log(count)
-    return count
+    return count;
   };
 
   let data;

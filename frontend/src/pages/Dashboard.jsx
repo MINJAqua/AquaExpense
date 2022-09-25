@@ -5,19 +5,6 @@ import Widget from '../components/Widget';
 
 const Dashboard = () => {
 
-  //Hello Jun, sorry if my code is confusing but here is just a overview of how this dashbaord component works
-
-  // getTransactions grabs all the data from our transactions/get api call. We then set transactions state equal
-  // to only the transactions array from userTransactions. The state, accounts, is then set to the array of
-  // accounts that come from userTransactions. Finally, accountId is set to the first account_id inside inside of
-  // userTransactions as a defualt value.
-
-  // Now we just create child components and pass down our state values as props. If your compoent needs a new
-  // state, feel free to create new ones. Just a heads up that sometimes you might need to conditionally render
-  // your child componets because it takes time for state values to update.
-
-  // Good luck out there, and feel free to hit me up if you need help understanding my code!
-
   //array of all transactions from transactionResponse api call
   //default value is false because we are conditionally rendering TransactionTable child component
   const [transactions, setTransactions] = useState(false);
@@ -25,19 +12,14 @@ const Dashboard = () => {
   //array of all the accounts that were selected when completing plaid link
   const [accounts, setAccounts] = useState([]);
 
-  //the accountId associated with the account name
-  const [accountId, setAccountId] = useState('');
+  //account selected inside the select dropdown list
+  //default value is false because we are conditionally rendering Widget child component
+  const [account, setAccount] = useState(false);
 
-  const [widgetName, setWidgetName ] = useState('');
-
-  //set state equal to a new account being selected in the dropdown list
   const handleChange = (e) => {
-    const handleChangeId = e.target.value.split(',')[0];
-    const handleChangeName = e.target.value.split(',')[1];
-    //console.log(e.target.value.split(',')[0])
-    setAccountId(handleChangeId);
-    setWidgetName(handleChangeName);
-  }
+    const handleChangeAccount = JSON.parse(e.target.value);
+    setAccount(handleChangeAccount);
+  };
 
   useEffect(() => {
     const getTransactions = async () => {
@@ -45,13 +27,9 @@ const Dashboard = () => {
       try {
         const transactionsResponse = await axios.get("/api/plaid/transactions", {params: {email: email} });
         const userTransactions = transactionsResponse.data;
-        console.log(userTransactions)
         setTransactions(userTransactions.transactions);
         setAccounts(userTransactions.accounts);
-
-        //Set the defualt value of accountId equal to the first account inside of userTransactions.accounts
-        setAccountId(userTransactions.accounts[0].account_id)
-        setWidgetName(userTransactions.accounts[0].name)
+        setAccount(userTransactions.accounts[0]);
       } catch (error) {
         console.log(error, "FAILED TO GET ACCESS TOKEN OR TRANSACTIONS");
       }
@@ -59,26 +37,23 @@ const Dashboard = () => {
     getTransactions();
   }, []);
 
-
   return (
     <div className='dashboard'>
       <div className='select-accounts-container'>
         <select className="select-accounts" onChange={handleChange}>
           {accounts.map((account, index) => {
             return (
-              <option value={[account.account_id, account.name]} key={index}>{account.name}</option>
+              <option value={JSON.stringify(account)} key={index}>{account.name}</option>
             )
           })}
         </select>
       </div>
       <div className='widgets'>
-        {widgetName ? <Widget type='account' widgetName={widgetName}/> : null}
-        {accountId && transactions ? <Widget type='transactions' transactions={transactions} accountId={accountId}/> : null}
-        {/* <Widget type='balance' transactions={transactions} accountId={accountId}/> */}
+        {account ? <Widget type='account' account={account}/> : null}
+        {account && transactions ? <Widget type='transactions' transactions={transactions} account={account}/> : null}
+        {account ? <Widget type='balance' account={account} transactions={transactions}/> : null}
       </div>
-      {/* we must conditionally render our TransactionTable child component to wait for state to update, or else
-      the props we send down will be undefined  */}
-      {transactions ? <TransactionTable transactions={transactions} accountId={accountId}/> : 'need to update'}
+      {transactions && account ? <TransactionTable transactions={transactions} account={account}/> : 'need to update'}
     </div>
   )
 }

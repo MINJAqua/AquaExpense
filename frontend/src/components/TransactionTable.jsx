@@ -8,9 +8,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const TransactionTable = ({ transactions, accountId }) => {
+const TransactionTable = ({ transactions, account }) => {
   const [accountTransactions, setAccountTransactions] = useState([]);
-  //console.log(transactions)
+  const accountId = account.account_id;
 
   const populateRows = () => {
     const allTransactions = transactions;
@@ -37,7 +37,7 @@ const TransactionTable = ({ transactions, accountId }) => {
   //dependency set to accountId to update new transactions if user selects a new account
   useEffect(() => {
     populateRows();
-  },[accountId])
+  },[account])
 
 
   return (

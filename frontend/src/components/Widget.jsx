@@ -5,14 +5,14 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import BalanceIcon from '@mui/icons-material/Balance';
 
+const Widget = ({ type, account, transactions}) => {
+  const accountName = account.name;
+  const AccountBalance = account.balances.available || account.balances.current;
 
-
-const Widget = ({ type, widgetName, transactions, accountId }) => {
   const totalTransactions = () => {
     let count = 0;
-
     transactions.forEach(transaction => {
-      if (transaction.account_id === accountId) {
+      if (transaction.account_id === account.account_id) {
         count++;
       }
     })
@@ -20,13 +20,11 @@ const Widget = ({ type, widgetName, transactions, accountId }) => {
   };
 
   let data;
-  let amount = 100;
-
   switch(type) {
     case 'account':
       data = {
         title: 'ACCOUNT',
-        name: widgetName,
+        name: accountName,
         isMoney: false,
         link: 'See all accounts',
         icon: (
@@ -55,6 +53,7 @@ const Widget = ({ type, widgetName, transactions, accountId }) => {
       data = {
         title: 'BALANCE',
         isMoney: true,
+        amount: AccountBalance,
         link: 'details',
         icon: (
           <BalanceIcon className='widget-icon' style={{
@@ -67,13 +66,14 @@ const Widget = ({ type, widgetName, transactions, accountId }) => {
       defualt:
       break;
   }
+
   return(
     <div className='widget'>
       <div className='left'>
         <span className='widget-title'>{data.title}</span>
         {data.name ? <span className='widget-name'>{data.name}</span> : null}
-        {data.isMoney ? <span className='widget-money'>$ {amount}</span> : null}
-        {data.count ? <span className='widget-transactions'>{data.count}</span> : null}
+        {data.isMoney && data.amount !== null ? <span className='widget-money'>$ {data.amount}</span> : null}
+        {data.count !== null ? <span className='widget-transactions'>{data.count}</span> : null}
         <span className='widget-link'>{data.link}</span>
       </div>
       <div className='right'>

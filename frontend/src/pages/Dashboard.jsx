@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "../axios";
 import TransactionTable from '../components/TransactionTable';
 import Widget from '../components/Widget';
+import ProgressBar from '../components/ProgressBar';
+import LineGraph from '../components/LineChart';
 
 const Dashboard = () => {
 
@@ -52,6 +54,10 @@ const Dashboard = () => {
         {account ? <Widget type='account' account={account}/> : null}
         {account && transactions ? <Widget type='transactions' transactions={transactions} account={account}/> : null}
         {account ? <Widget type='balance' account={account} transactions={transactions}/> : null}
+      </div>
+      <div className='charts'>
+        <ProgressBar />
+        <LineGraph />
       </div>
       {transactions && account ? <TransactionTable transactions={transactions} account={account}/> : 'need to update'}
     </div>

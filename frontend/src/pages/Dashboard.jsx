@@ -55,10 +55,12 @@ const Dashboard = () => {
         {account && transactions ? <Widget type='transactions' transactions={transactions} account={account}/> : null}
         {account ? <Widget type='balance' account={account} transactions={transactions}/> : null}
       </div>
-      <div className='charts'>
-        <ProgressBar />
-        <LineGraph />
-      </div>
+        {transactions && account ? (
+          <div className='charts'>
+            <ProgressBar/>
+            <LineGraph transactions={transactions} account={account}/>
+          </div>
+        ): null}
       {transactions && account ? <TransactionTable transactions={transactions} account={account}/> : 'need to update'}
     </div>
   )

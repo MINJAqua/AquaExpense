@@ -1,4 +1,14 @@
-.lineChart-container {
+.lineChart {
   flex: 4;
   box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  color: gray;
+  padding: 10px;
+}
+
+.lineChart-title {
+  margin-bottom: 20px;
+}
+
+.chartGrid {
+  stroke: rgb(228, 225, 225);
 }

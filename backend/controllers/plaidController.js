@@ -78,7 +78,6 @@ const exchangeToken = asyncHandler(async (req, res) => {
 });
 
 const getTransactions = asyncHandler(async (req, res) => {
-  console.log("getTransactions has been hit");
   const { email } = req.query;
   const user = await User.findOne({ email });
   const access_token = user.access_token;

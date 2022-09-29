@@ -1,71 +1,58 @@
 import "../css/Login.css";
-import LockIcon from "@mui/icons-material/Lock";
+
 import axios from "../axios";
-import { useRef, useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import {
   Grid,
   Paper,
   Avatar,
+  Link,
   TextField,
   FormControlLabel,
   Checkbox,
   Button,
   Typography,
+  Box,
+  Divider,
 } from "@mui/material";
+import { useFormik } from "formik";
 
 const SIGNUP_URL = "http://localhost:8000/api/users/login";
 
 const Login = () => {
+  const buttonTheme = {
+    fontWeight: "bold",
+    textTransform: "none",
+    height: "40px",
+  };
   const navigate = useNavigate();
-  const paperStyle = {
-    padding: 20,
-    height: "70vh",
-    width: 300,
-    margin: "20px auto",
-  };
-
-  const avatarStyle = {
-    backgroundColor: "green",
-  };
-  const userRef = useRef();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
 
   const [loginFail, setLoginFail] = useState(false);
 
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        SIGNUP_URL,
-        JSON.stringify({ email, password }),
-        {
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post(SIGNUP_URL, JSON.stringify(values), {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
-      );
+        });
 
-      //The token stored in localStorage is a jwt token,
-      //NOT the public token from plaid
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("email", response.data.email);
+        //The token stored in localStorage is a jwt token,
+        //NOT the public token from plaid
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("email", response.data.email);
 
-      navigate("/plaid");
-    } catch (error) {
-      setLoginFail(true);
-    }
-  };
+        navigate("/plaid");
+      } catch (error) {
+        setLoginFail(true);
+      }
+    },
+  });
 
   const loginCheck = () => {
     if (loginFail) {
@@ -75,76 +62,118 @@ const Login = () => {
 
   return (
     <>
-      {success ? (
-        <section>
-          <h1>Success</h1>
-          <p>
-            <Link href="#"> Homepage</Link>
-          </p>
-        </section>
-      ) : (
-        <Grid>
-          <Paper elevation={10} style={paperStyle}>
-            <Grid align="center">
-              <Avatar style={avatarStyle}>
-                <LockIcon />
-              </Avatar>
-              <h2>Log In</h2>
-            </Grid>
+      <Grid>
+        <Paper
+          elevation={0}
+          sx={{
+            padding: "50px 300px 10px 300px",
+            height: "70vh",
+            margin: "20px auto",
+          }}
+        >
+          <Grid align="center"></Grid>
+          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+            Sign in
+          </Typography>
+          <Typography color="textSecondary" gutterBottom variant="body2">
+            Sign in with your email address
+          </Typography>
 
-            <TextField
-              id="username"
-              ref={userRef}
-              fullWidth
-              label="Username"
-              placeholder="Enter username"
-              htmlFor="username"
-              required
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              style={{ margin: "20px 0px" }}
-              id="password"
-              type="password"
-              fullWidth
-              label="Password"
-              placeholder="Enter password"
-              required
-              htmlFor="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <FormControlLabel
+          <br />
+          <TextField
+            id="username"
+            fullWidth
+            name="email"
+            label="Email Address"
+            required
+            value={formik.values.email}
+            onChange={formik.handleChange}
+          />
+          <TextField
+            style={{ margin: "20px 0px" }}
+            id="password"
+            name="password"
+            type="password"
+            fullWidth
+            label="Password"
+            required
+            value={formik.values.password}
+            onChange={formik.handleChange}
+          />
+          {/* <FormControlLabel
               control={<Checkbox name="checkedB" color="primary" />}
               label="Remember Me"
-            />
-
+            /> */}
+          <Box sx={{ py: 2 }}>
             <Button
               type="submit"
-              color="primary"
               variant="contained"
               component="label"
+              size="large"
               fullWidth
-              onClick={handleSubmit}
-              style={{ margin: "8px 0" }}
+              onClick={formik.handleSubmit}
+              sx={{
+                textTransform: "none",
+                fontWeight: "bold",
+                height: "50px",
+                backgroundColor: "#31C7F8",
+                "&:hover": { backgroundColor: "#23AFDC" },
+              }}
             >
               Sign In
             </Button>
-            {loginCheck()}
+          </Box>
+          {loginCheck()}
 
-            <Typography>
-              {/* Link to reset password
+          <Typography>
+            {/* Link to reset password
               <Link href="#">Forgot password?</Link> */}
-            </Typography>
+          </Typography>
 
-            <Typography>
-              Don't have an account?
-              <Link className="signup-link" to="/signup">
+          <Typography color="textSecondary">
+            Don't have an account?{" "}
+            <Link
+              className="signup-link"
+              href="/signup"
+              underline="hover"
+              sx={{
+                cursor: "pointer",
+              }}
+            >
               Sign Up
             </Link>
-            </Typography>
-          </Paper>
-        </Grid>
-      )}
+          </Typography>
+          <Divider fullWidth sx={{ padding: "30px 0 30px 0" }}>
+            <Typography color="textSecondary"> or </Typography>
+          </Divider>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Button
+                color="info"
+                fullWidth
+                onClick={() => formik.handleSubmit()}
+                size="large"
+                variant="contained"
+                sx={buttonTheme}
+              >
+                Login with Facebook
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Button
+                color="error"
+                fullWidth
+                onClick={() => formik.handleSubmit()}
+                size="large"
+                variant="contained"
+                sx={buttonTheme}
+              >
+                Login with Google
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Grid>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./css/App.css";
 import Sidebar from "./components/Sidebar";
@@ -14,14 +14,28 @@ import PlaidLink from "./pages/Plaid";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    function checkToken() {
+      const item = localStorage.getItem("token");
+
+      if (item) {
+        setIsLoggedIn(true);
+        navbar();
+        sidebar();
+      }
+    }
+    checkToken();
+  }, []);
+
   const sidebar = () => {
-    if (localStorage.render === "true") {
+    console.log(localStorage.token);
+    if (isLoggedIn) {
       return <Sidebar />;
     }
   };
 
   const navbar = () => {
-    if (localStorage.render === "true") {
+    if (isLoggedIn) {
       return <Navbar />;
     }
   };

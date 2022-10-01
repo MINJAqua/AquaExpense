@@ -1,22 +1,20 @@
 import "../css/Login.css";
-
+import * as Yup from "yup";
 import axios from "../axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Paper,
-  Avatar,
   Link,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Button,
   Typography,
   Box,
   Divider,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { FaFacebookF, FaGoogle } from "react-icons/fa";
 
 const SIGNUP_URL = "http://localhost:8000/api/users/login";
 
@@ -35,6 +33,13 @@ const Login = () => {
       email: "",
       password: "",
     },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Must be a valid email")
+        .max(255)
+        .required("Email is required"),
+      password: Yup.string().max(255).required("Password is required"),
+    }),
     onSubmit: async (values) => {
       try {
         const response = await axios.post(SIGNUP_URL, JSON.stringify(values), {
@@ -81,6 +86,8 @@ const Login = () => {
 
           <br />
           <TextField
+            error={Boolean(formik.touched.email && formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
             id="username"
             fullWidth
             name="email"
@@ -90,6 +97,8 @@ const Login = () => {
             onChange={formik.handleChange}
           />
           <TextField
+            error={Boolean(formik.touched.password && formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
             style={{ margin: "20px 0px" }}
             id="password"
             name="password"
@@ -155,6 +164,7 @@ const Login = () => {
                 size="large"
                 variant="contained"
                 sx={buttonTheme}
+                startIcon={<FaFacebookF />}
               >
                 Login with Facebook
               </Button>
@@ -166,6 +176,7 @@ const Login = () => {
                 onClick={() => formik.handleSubmit()}
                 size="large"
                 variant="contained"
+                startIcon={<FaGoogle />}
                 sx={buttonTheme}
               >
                 Login with Google

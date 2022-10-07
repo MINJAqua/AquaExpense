@@ -2,6 +2,7 @@ import "../css/Signup.css";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "../axios";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -12,50 +13,70 @@ import {
   Link,
   Box,
   Checkbox,
+  FormHelperText,
 } from "@mui/material";
 
-const USER_REGEX = /^[A-z][A-z]$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+//const USER_REGEX = /^[A-z][A-z]$/;
+//const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const SIGNUP_URL = "http://localhost:8000/api/users";
 
 const SignUp = () => {
   const navigate = useNavigate();
+
+  const [registerFail, setRegisterFail] = useState(false);
 
   const formik = useFormik({
     initialValues: {
       user: "",
       email: "",
       password: "",
+      confirmPassword: "",
       check: false,
     },
     validationSchema: Yup.object({
+      user: Yup.string().max(255).required("Name is required"),
       email: Yup.string()
         .email("Must be a valid email")
         .max(255)
         .required("Email is required"),
-      password: Yup.string().max(255).required("Password is required"),
+      password: Yup.string()
+        .max(255)
+        .min(8, "Password must be at least 8 characters or more")
+        .required("Password is required"),
+      confirmPassword: Yup.string().oneOf(
+        [Yup.ref("password"), "hello"],
+        "Passwords must match"
+      ),
       check: Yup.boolean().oneOf([true], "This field must be checked"),
     }),
     onSubmit: async (values) => {
       try {
-        console.log(values);
         const response = await axios.post(SIGNUP_URL, JSON.stringify(values), {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         });
 
-        console.log(response);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("email", response.data.email);
+
         // setSuccess(true);
         navigate("/");
       } catch (error) {
         //i think we write the logic for giving a user already exists error in here
-
-        console.log(error, "can you see me?");
+        setRegisterFail(true);
       }
-
-      console.log("finished running handle submit function");
     },
   });
+
+  const registerCheck = () => {
+    if (registerFail) {
+      return (
+        <Typography sx={{ paddingTop: "15px" }} className="register-fail">
+          Email already exists
+        </Typography>
+      );
+    }
+  };
 
   return (
     <>
@@ -79,6 +100,8 @@ const SignUp = () => {
             <br />
 
             <TextField
+              error={Boolean(formik.touched.user && formik.errors.user)}
+              helperText={formik.touched.user && formik.errors.user}
               id="name"
               fullWidth
               name="user"
@@ -116,13 +139,19 @@ const SignUp = () => {
             />
 
             <TextField
+              error={Boolean(
+                formik.touched.confirmPassword && formik.errors.confirmPassword
+              )}
+              helperText={
+                formik.touched.confirmPassword && formik.errors.confirmPassword
+              }
               id="confirm_pwd"
               type="password"
               fullWidth
               label="Confirm Password"
-              htmlFor="confirm_pwd"
-              placeholder="Confirm Password"
+              name="confirmPassword"
               required
+              onChange={formik.handleChange}
             />
 
             <Box
@@ -138,13 +167,25 @@ const SignUp = () => {
                 name="check"
                 onChange={formik.handleChange}
               />
+
               <Typography color="textSecondary" variant="body2">
                 I have read the{" "}
-                <Link color="primary" underline="always" variant="subtitle2">
+                <Link
+                  color="primary"
+                  underline="always"
+                  variant="subtitle2"
+                  sx={{
+                    cursor: "pointer",
+                    color: "#31C7F0",
+                  }}
+                >
                   Terms and Conditions
                 </Link>
               </Typography>
             </Box>
+            {Boolean(formik.touched.check && formik.errors.check) && (
+              <FormHelperText error>{formik.errors.check}</FormHelperText>
+            )}
 
             <Box sx={{ py: 2, paddingBottom: "20px" }}>
               <Button
@@ -163,6 +204,7 @@ const SignUp = () => {
               >
                 Register Account
               </Button>
+              {registerCheck()}
             </Box>
 
             <Typography>

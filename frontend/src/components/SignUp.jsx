@@ -1,19 +1,17 @@
 import "../css/Signup.css";
-import LockIcon from "@mui/icons-material/Lock";
-import InfoIcon from "@mui/icons-material/Info";
-import { useRef, useState, useEffect } from "react";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 import axios from "../axios";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import {
   Grid,
   Paper,
-  Avatar,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Button,
   Typography,
+  Link,
+  Box,
+  Checkbox,
 } from "@mui/material";
 
 const USER_REGEX = /^[A-z][A-z]$/;
@@ -22,240 +20,167 @@ const SIGNUP_URL = "http://localhost:8000/api/users";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const paperStyle = {
-    padding: 20,
-    height: "70vh",
-    width: 300,
-    margin: "20px auto",
-  };
 
-  const avatarStyle = {
-    backgroundColor: "green",
-  };
-
-  const userRef = useRef();
-  const errRef = useRef();
-
-  const [user, setUser] = useState("");
-  const [email, setEmail] = useState("");
-  const [validName, setValidName] = useState(false);
-  const [userFocus, setUserFocus] = useState(false);
-
-  const [password, setPassword] = useState("");
-  const [validPwd, setValidPwd] = useState(false);
-  const [pwdFocus, setPwdFocus] = useState(false);
-
-  const [matchPwd, setMatchPwd] = useState("");
-  const [validMatch, setValidMatch] = useState(false);
-  const [matchFocus, setMatchFocus] = useState(false);
-
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  const [emailTaken, setEmailTaken] = useState(false);
-
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    const result = USER_REGEX.test(user);
-    // console.log(result);
-    // console.log(user);
-    setValidName(result);
-  }, [user]);
-
-  useEffect(() => {
-    const result = PWD_REGEX.test(password);
-    // console.log(result);
-    // console.log(password);
-    setValidPwd(result);
-    const match = password === matchPwd;
-    setValidMatch(match);
-  }, [password, matchPwd]);
-
-  useEffect(() => {
-    setErrMsg("");
-  }, [user, password, matchPwd]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // if button enabled with JS hack
-    // const v1 = USER_REGEX.test(user);
-    // const v2 = PWD_REGEX.test(password);
-    // if (!v1 || !v2) {
-    //   setErrMsg("Invalid Entry");
-    //   return;
-    // }
-    console.log("hello");
-
-    try {
-      const response = await axios.post(
-        SIGNUP_URL,
-        JSON.stringify({ user, email, password }),
-        {
+  const formik = useFormik({
+    initialValues: {
+      user: "",
+      email: "",
+      password: "",
+      check: false,
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Must be a valid email")
+        .max(255)
+        .required("Email is required"),
+      password: Yup.string().max(255).required("Password is required"),
+      check: Yup.boolean().oneOf([true], "This field must be checked"),
+    }),
+    onSubmit: async (values) => {
+      try {
+        console.log(values);
+        const response = await axios.post(SIGNUP_URL, JSON.stringify(values), {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
-      );
+        });
 
-      console.log(response);
-      // setSuccess(true);
-      navigate("/");
-    } catch (error) {
-      //i think we write the logic for giving a user already exists error in here
-      setEmailTaken(true);
-      console.log(error, "can you see me?");
-    }
+        console.log(response);
+        // setSuccess(true);
+        navigate("/");
+      } catch (error) {
+        //i think we write the logic for giving a user already exists error in here
 
-    console.log("finished running handle submit function");
-  };
+        console.log(error, "can you see me?");
+      }
 
-  const emailCheck = () => {
-    if (emailTaken) {
-      return (
-        <div className="email-taken">*This email has already been taken*</div>
-      );
-    }
-  };
+      console.log("finished running handle submit function");
+    },
+  });
+
   return (
     <>
-      {success ? (
-        <section>
-          <h1>Success!</h1>
-          <p>
-            {/* React router link */}
-            <Link href="#"> HomePage</Link>
-          </p>
-        </section>
-      ) : (
+      <form>
         <Grid>
-          <Paper elevation={10} style={paperStyle}>
-            <Grid align="center">
-              <Avatar style={avatarStyle}>
-                <LockIcon />
-              </Avatar>
-              <p
-                ref={errRef}
-                className={errMsg ? "errmsg" : "offscreen"}
-                aria-live="assertive"
-              >
-                {errMsg}
-              </p>
-              <h2>Sign UP</h2>
-            </Grid>
+          <Paper
+            elevation={0}
+            style={{
+              padding: "50px 300px 10px 300px",
+              height: "70vh",
+              margin: "20px auto",
+            }}
+          >
+            <Grid align="center"></Grid>
+            <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+              Create a new account
+            </Typography>
+            <Typography color="textSecondary" gutterBottom variant="body2">
+              Create a new account with your email address
+            </Typography>
+            <br />
 
             <TextField
               id="name"
-              ref={userRef}
-              onChange={(e) => setUser(e.target.value)}
-              aria-invalid={validName ? "false" : "true"}
-              aria-describedby="uidnote"
-              onFocus={() => setUserFocus(true)}
-              onBlur={() => setUserFocus(false)}
               fullWidth
+              name="user"
               label="Name"
-              htmlFor="name"
-              placeholder="Enter Name"
               required
               autoComplete="off"
+              onChange={formik.handleChange}
             />
-            <TextField
-              style={{ margin: "20px 0px 0px" }}
-              id="email"
-              onChange={(e) => setEmail(e.target.value)}
-              fullWidth
-              label="Email"
-              htmlFor="email"
-              placeholder="Enter email"
-              required
-              autoComplete="off"
-            />
-            {emailCheck()}
 
             <TextField
+              error={Boolean(formik.touched.email && formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              style={{ margin: "20px 0px 0px" }}
+              id="email"
+              fullWidth
+              name="email"
+              label="Email"
+              required
+              autoComplete="off"
+              onChange={formik.handleChange}
+            />
+
+            <TextField
+              error={Boolean(formik.touched.password && formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
               style={{ margin: "20px 0px" }}
               type="password"
               id="password"
-              onChange={(e) => setPassword(e.target.value)}
-              aria-invalid={validPwd ? "false" : "true"}
-              aria-describedby="pwdnote"
-              onFocus={() => setPwdFocus(true)}
-              onBlur={() => setPwdFocus(false)}
               fullWidth
               label="Password"
-              htmlFor="password"
+              name="password"
               placeholder="Enter password"
+              onChange={formik.handleChange}
               required
             />
-            <p
-              id="pwdnote"
-              className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
-            >
-              <InfoIcon fontSize="small" />
-              8 to 24 characters.
-              <br />
-              Must include uppercase and lowercase letters, a number and a
-              special character.
-              <br />
-              Allowed special characters:{" "}
-              <span aria-label="exclamation mark">!</span>{" "}
-              <span aria-label="at symbol">@</span>{" "}
-              <span aria-label="hashtag">#</span>{" "}
-              <span aria-label="dollar sign">$</span>{" "}
-              <span aria-label="percent">%</span>
-            </p>
+
             <TextField
-              type="password"
               id="confirm_pwd"
-              onChange={(e) => setMatchPwd(e.target.value)}
-              aria-invalid={validPwd ? "false" : "true"}
-              aria-describedby="confirmnote"
-              onFocus={() => setMatchFocus(true)}
-              onBlur={() => setMatchFocus(false)}
+              type="password"
               fullWidth
               label="Confirm Password"
               htmlFor="confirm_pwd"
               placeholder="Confirm Password"
               required
             />
-            <p
-              id="confirmnote"
-              className={
-                matchFocus && !validMatch ? "instructions" : "offscreen"
-              }
-            >
-              <InfoIcon fontSize="small" />
-              Must match the first password input field.
-            </p>
-            <FormControlLabel
-              control={<Checkbox name="checkedB" color="primary" />}
-              label="Remember Me"
-            />
 
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              component="label"
-              fullWidth
-              style={{ margin: "8px 0" }}
-              //disabled={!validName || !validPwd || !validMatch ? true : false}
-              onClick={handleSubmit}
+            <Box
+              sx={{
+                alignItems: "center",
+                display: "flex",
+                ml: -1,
+                padding: "5px",
+              }}
             >
-              Sign Up
-            </Button>
+              <Checkbox
+                checked={formik.values.check}
+                name="check"
+                onChange={formik.handleChange}
+              />
+              <Typography color="textSecondary" variant="body2">
+                I have read the{" "}
+                <Link color="primary" underline="always" variant="subtitle2">
+                  Terms and Conditions
+                </Link>
+              </Typography>
+            </Box>
+
+            <Box sx={{ py: 2, paddingBottom: "20px" }}>
+              <Button
+                onClick={formik.handleSubmit}
+                variant="contained"
+                component="label"
+                size="large"
+                fullWidth
+                sx={{
+                  textTransform: "none",
+                  fontWeight: "bold",
+                  height: "50px",
+                  backgroundColor: "#31C7F8",
+                  "&:hover": { backgroundColor: "#23AFDC" },
+                }}
+              >
+                Register Account
+              </Button>
+            </Box>
 
             <Typography>
-              Already have an account?
-              <Link className="login-link" to="/">
-              Login
-            </Link>
+              Already have an account?{" "}
+              <Link
+                href="/"
+                underline="hover"
+                sx={{
+                  cursor: "pointer",
+                  color: "#31C7F0",
+                }}
+              >
+                Sign In
+              </Link>
             </Typography>
           </Paper>
         </Grid>
-      )}
+      </form>
     </>
   );
 };

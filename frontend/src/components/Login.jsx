@@ -1,5 +1,6 @@
 import "../css/Login.css";
 import * as Yup from "yup";
+import { useFormik } from "formik";
 import axios from "../axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,10 +14,9 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-import { useFormik } from "formik";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 
-const SIGNUP_URL = "http://localhost:8000/api/users/login";
+const SIGNIN_URL = "http://localhost:8000/api/users/login";
 
 const Login = () => {
   const buttonTheme = {
@@ -42,7 +42,7 @@ const Login = () => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(SIGNUP_URL, JSON.stringify(values), {
+        const response = await axios.post(SIGNIN_URL, JSON.stringify(values), {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         });
@@ -61,7 +61,11 @@ const Login = () => {
 
   const loginCheck = () => {
     if (loginFail) {
-      return <div className="login-fail">*Incorrect username or password*</div>;
+      return (
+        <Typography sx={{ paddingTop: "15px" }} className="login-fail">
+          Incorrect Username or Password
+        </Typography>
+      );
     }
   };
 
@@ -113,7 +117,7 @@ const Login = () => {
               control={<Checkbox name="checkedB" color="primary" />}
               label="Remember Me"
             /> */}
-          <Box sx={{ py: 2 }}>
+          <Box sx={{ py: 2, paddingBottom: "20px" }}>
             <Button
               type="submit"
               variant="contained"
@@ -129,10 +133,10 @@ const Login = () => {
                 "&:hover": { backgroundColor: "#23AFDC" },
               }}
             >
-              Sign In
+              Sign In Now
             </Button>
+            {loginCheck()}
           </Box>
-          {loginCheck()}
 
           <Typography>
             {/* Link to reset password
@@ -147,6 +151,7 @@ const Login = () => {
               underline="hover"
               sx={{
                 cursor: "pointer",
+                color: "#31C7F0",
               }}
             >
               Sign Up
@@ -173,7 +178,7 @@ const Login = () => {
               <Button
                 color="error"
                 fullWidth
-                onClick={() => formik.handleSubmit()}
+                onSubmit={formik.handleSubmit}
                 size="large"
                 variant="contained"
                 startIcon={<FaGoogle />}

@@ -5,10 +5,7 @@ const User = require("../models/userModel");
 
 //@route POST /api/users/:id
 const registerUser = asyncHandler(async (req, res) => {
-  //console.log("we are hitting the backend");
   const { user, email, password } = req.body;
-  //console.log(user, email, password);
-  //console.log(req.body);
 
   //Checks if all fields are filled
   if (!user || !email || !password) {

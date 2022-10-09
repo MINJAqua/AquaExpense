@@ -18,7 +18,9 @@ import { FaFacebookF, FaGoogle } from "react-icons/fa";
 
 const SIGNIN_URL = "http://localhost:8000/api/users/login";
 
-const Login = () => {
+const Login = (props) => {
+  props.funcNav(false);
+
   const buttonTheme = {
     fontWeight: "bold",
     textTransform: "none",
@@ -75,7 +77,7 @@ const Login = () => {
         <Paper
           elevation={0}
           sx={{
-            padding: "50px 300px 10px 300px",
+            padding: "100px 300px 10px 300px",
             height: "70vh",
             margin: "20px auto",
           }}

@@ -12,44 +12,20 @@ import Notifications from "./pages/Notifications";
 import PlaidLink from "./pages/Plaid";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    function checkToken() {
-      const item = localStorage.getItem("token");
-
-      if (item) {
-        setIsLoggedIn(true);
-        navbar();
-        sidebar();
-      }
-    }
-    checkToken();
-  }, []);
-
-  const sidebar = () => {
-    console.log(localStorage.token);
-    if (isLoggedIn) {
-      return <Sidebar />;
-    }
-  };
-
-  const navbar = () => {
-    if (isLoggedIn) {
-      return <Navbar />;
-    }
-  };
-
-  const checkLogin = () => {};
+  const [showNav, setShowNav] = useState(true);
 
   return (
     <div className="App">
-      {sidebar()}
+      {showNav && <Sidebar />}
       <div className="container">
-        {navbar()}
+        {showNav && (
+          <nav>
+            <Navbar />
+          </nav>
+        )}
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<Login funcNav={setShowNav} />} />
+          <Route path="/signup" element={<SignUp funcNav={setShowNav} />} />
           <Route path="/plaid" element={<PlaidLink />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Profile" element={<Profile />} />

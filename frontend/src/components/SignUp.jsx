@@ -20,7 +20,9 @@ import {
 //const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const SIGNUP_URL = "http://localhost:8000/api/users";
 
-const SignUp = () => {
+const SignUp = (props) => {
+  props.funcNav(false);
+
   const navigate = useNavigate();
 
   const [registerFail, setRegisterFail] = useState(false);

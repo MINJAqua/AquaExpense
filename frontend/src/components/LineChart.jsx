@@ -1,4 +1,4 @@
-import '../css/LineChart.css';
+import "../css/LineChart.css";
 import {
   CartesianGrid,
   Legend,
@@ -24,12 +24,12 @@ const LineGraph = ({ transactions, account }) => {
       //compare Id's to match what the user selected
       if (curTransaction.account_id === accountId) {
         //loop through data array to check if the curTransaction date already exists
-        data.forEach(dataTransaction => {
+        data.forEach((dataTransaction) => {
           if (dataTransaction.date === curTransaction.date) {
             dataTransaction.amount += curTransaction.amount;
             foundDupe = true;
           }
-        })
+        });
         //push a new object into data array with date and amount key value pairs, if no duplicate was found
         if (!foundDupe) {
           obj.date = curTransaction.date;
@@ -40,25 +40,32 @@ const LineGraph = ({ transactions, account }) => {
     }
     //console.log(data)
     return data;
-  }
+  };
 
   return (
-    <div className='lineChart'>
-      <div className='lineChart-title'>Cost of Transactions by Date</div>
-      <AreaChart width={730} height={250} data={fillData()}>
+    <div className="lineChart">
+      <div className="lineChart-title">Cost of Transactions by Date</div>
+      <AreaChart width={730} height={400} data={fillData()}>
         <defs>
           <linearGradient id="amount" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#72efff" stopOpacity={0.5}/>
-            <stop offset="95%" stopColor="#72efff" stopOpacity={.1}/>
+            <stop offset="5%" stopColor="#72efff" stopOpacity={0.5} />
+            <stop offset="95%" stopColor="#72efff" stopOpacity={0.1} />
           </linearGradient>
         </defs>
-        <XAxis dataKey="date" stroke='gray'/>
-        <CartesianGrid strokeDasharray="3 3" className='chartGrid'/>
-        <Tooltip itemStyle={{color: '#36c9fe'}}/>
-        <Area type="monotone" dataKey="amount" stroke="#72efff" fillOpacity={1} fill="url(#amount)" dot={{ stroke: '#36c9fe', strokeWidth: 2 }}/>
+        <XAxis dataKey="date" stroke="gray" />
+        <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
+        <Tooltip itemStyle={{ color: "#36c9fe" }} />
+        <Area
+          type="monotone"
+          dataKey="amount"
+          stroke="#72efff"
+          fillOpacity={1}
+          fill="url(#amount)"
+          dot={{ stroke: "#36c9fe", strokeWidth: 2 }}
+        />
       </AreaChart>
     </div>
-  )
+  );
 };
 
 export default LineGraph;

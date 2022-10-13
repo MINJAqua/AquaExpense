@@ -10,11 +10,6 @@ import {
   PlaidLinkOptions,
 } from "react-plaid-link";
 
-//use these varibles when making an axios request to avoid long url
-const transactionsEndpoint =
-  "http://localhost:8000/api/create_link_token/transactions/get";
-const exchangeTokenEndpoint = "http://localhost:8000/api/plaid/exchange";
-
 const PlaidLink = () => {
   const [token, setToken] = useState(null);
   const [accessToken, setAccess_Token] = useState("");
@@ -37,7 +32,7 @@ const PlaidLink = () => {
     const email = localStorage.email;
     console.log(publicToken);
     try {
-      const response = await axios.post(exchangeTokenEndpoint, {
+      const response = await axios.post('/api/plaid/exchange', {
         publicToken,
         email,
       });

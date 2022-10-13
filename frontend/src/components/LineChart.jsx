@@ -1,10 +1,8 @@
 import "../css/LineChart.css";
 import {
   CartesianGrid,
-  Legend,
   Tooltip,
   XAxis,
-  YAxis,
   AreaChart,
   Area,
 } from "recharts";

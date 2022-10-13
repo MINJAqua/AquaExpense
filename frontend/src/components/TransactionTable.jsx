@@ -11,33 +11,30 @@ import Paper from '@mui/material/Paper';
 const TransactionTable = ({ transactions, account }) => {
   const [accountTransactions, setAccountTransactions] = useState([]);
   const accountId = account.account_id;
-
-  const populateRows = () => {
-    const allTransactions = transactions;
-    const transactionsById = [];
-
-    //populate the transactionsById array with only transactions that match the account selected
-    allTransactions.forEach(transaction => {
-      const obj = {};
-      if (transaction.account_id === accountId) {
-        obj.id = transaction.transaction_id
-        obj.date = transaction.date;
-        obj.company = transaction.merchant_name ? transaction.merchant_name : transaction.name;
-        obj.amount = transaction.amount
-        obj.status = transaction.pending ? 'Pending' : 'Settled'
-        transactionsById.push(obj)
-      }
-    });
-    setAccountTransactions(transactionsById)
-  };
-
   //Set the transactions equal to row because accountTransactions is a very long variable lol
   const rows = accountTransactions;
 
   //dependency set to accountId to update new transactions if user selects a new account
   useEffect(() => {
+    const populateRows = () => {
+      const allTransactions = transactions;
+      const transactionsById = [];
+      //populate the transactionsById array with only transactions that match the account selected
+      allTransactions.forEach(transaction => {
+        const obj = {};
+        if (transaction.account_id === accountId) {
+          obj.id = transaction.transaction_id
+          obj.date = transaction.date;
+          obj.company = transaction.merchant_name ? transaction.merchant_name : transaction.name;
+          obj.amount = transaction.amount
+          obj.status = transaction.pending ? 'Pending' : 'Settled'
+          transactionsById.push(obj)
+        }
+      });
+      setAccountTransactions(transactionsById)
+    };
     populateRows();
-  },[account])
+  },[accountId, transactions])
 
 
   return (

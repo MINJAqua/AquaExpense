@@ -1,5 +1,5 @@
 import "../css/Login.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "../axios";

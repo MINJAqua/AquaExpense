@@ -4,60 +4,50 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import {
   usePlaidLink,
-  PlaidLinkOnSuccess,
-  PlaidLinkOnEvent,
-  PlaidLinkOnExit,
-  PlaidLinkOptions,
+  //PlaidLinkOnSuccess,
+  //PlaidLinkOnEvent,
+  //PlaidLinkOnExit,
+  //PlaidLinkOptions,
 } from "react-plaid-link";
+
 
 const PlaidLink = () => {
   const [token, setToken] = useState(null);
-  const [accessToken, setAccess_Token] = useState("");
   const navigate = useNavigate();
-  const email = localStorage.email;
-
   // get a link_token from your API when component mounts
-  const createLinkToken = async () => {
-    try {
-      const response = await axios.post("/api/plaid", { email });
-      const link_token = response.data.link_token;
-      console.log("Your link_token is", link_token);
-      setToken(link_token);
-    } catch (error) {
-      console.log(error, "YOU FAILED TO GET A TOKEN");
-    }
-  };
-
-  const exchangeToken = async (publicToken) => {
-    const email = localStorage.email;
-    console.log(publicToken);
-    try {
-      const response = await axios.post('/api/plaid/exchange', {
-        publicToken,
-        email,
-      });
-      const responseData = response.data;
-      console.log("response data", responseData);
-
-      const access_Token = responseData.access_token;
-      setAccess_Token(access_Token);
-
-      navigate("/dashboard");
-    } catch (error) {
-      console.log(error, "YOU FAILED TO GET ACCESS TOKEN");
-    }
-  };
-
   useEffect(() => {
+    const email = localStorage.email;
+    const createLinkToken = async () => {
+      try {
+        const response = await axios.post("/api/plaid", { email });
+        const link_token = response.data.link_token;
+        console.log("Your link_token is", link_token);
+        setToken(link_token);
+      } catch (error) {
+        console.log(error, "YOU FAILED TO GET A TOKEN");
+      }
+    };
     createLinkToken();
   }, []);
 
   const onSuccess = useCallback((publicToken, metadata) => {
-    //console.log(publicToken);
-
+    const exchangeToken = async (publicToken) => {
+      const email = localStorage.email;
+      console.log(publicToken);
+      try {
+        const response = await axios.post('/api/plaid/exchange', {
+          publicToken,
+          email,
+        });
+        const responseData = response.data;
+        console.log("response data", responseData);
+        navigate("/dashboard");
+      } catch (error) {
+        console.log(error, "YOU FAILED TO GET ACCESS TOKEN");
+      }
+    };
     exchangeToken(publicToken);
-    localStorage.setItem("render", true);
-  }, []);
+  }, [navigate]);
 
   const config = {
     token,

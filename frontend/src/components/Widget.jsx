@@ -1,7 +1,5 @@
 import "../css/Widget.css";
-import { useEffect, useState } from "react";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import BalanceIcon from "@mui/icons-material/Balance";
 
@@ -72,7 +70,7 @@ const Widget = ({ type, account, transactions }) => {
         ),
       };
       break;
-      defualt: break;
+    default: break;
   }
 
   return (

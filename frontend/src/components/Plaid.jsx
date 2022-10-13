@@ -89,7 +89,7 @@ const PlaidLink = () => {
           color: "white",
         }}
       >
-        Connect to a bank account
+        Connect to a bank account Hello
       </Button>
     </div>
   );

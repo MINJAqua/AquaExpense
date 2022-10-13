@@ -20,9 +20,7 @@ import {
 //const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const SIGNUP_URL = "http://localhost:8000/api/users";
 
-const SignUp = (props) => {
-  props.funcNav(false);
-
+const SignUp = () => {
   const navigate = useNavigate();
 
   const [registerFail, setRegisterFail] = useState(false);
@@ -62,7 +60,7 @@ const SignUp = (props) => {
         localStorage.setItem("email", response.data.email);
 
         // setSuccess(true);
-        navigate("/");
+        navigate("/dashboard");
       } catch (error) {
         //i think we write the logic for giving a user already exists error in here
         setRegisterFail(true);

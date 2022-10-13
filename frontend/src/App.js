@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./css/App.css";
 import Sidebar from "./components/Sidebar";
@@ -9,24 +8,16 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Notifications from "./pages/Notifications";
-import PlaidLink from "./pages/Plaid";
 
 function App() {
-  const [showNav, setShowNav] = useState(true);
-
   return (
     <div className="App">
-      {showNav && <Sidebar />}
+      <Sidebar />
       <div className="container">
-        {showNav && (
-          <nav>
-            <Navbar />
-          </nav>
-        )}
+        <Navbar />
         <Routes>
-          <Route path="/" element={<Login funcNav={setShowNav} />} />
-          <Route path="/signup" element={<SignUp funcNav={setShowNav} />} />
-          <Route path="/plaid" element={<PlaidLink />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Settings" element={<Settings />} />

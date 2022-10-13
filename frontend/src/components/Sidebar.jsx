@@ -1,5 +1,5 @@
 //import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -9,6 +9,12 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
 const Sidebar = () => {
   //All TBD Icons are being directed to setting page for now but will change when we actaully have stuff
+
+  const location = useLocation();
+
+  if (location.pathname === "/signup" || location.pathname === "/") {
+    return null;
+  }
 
   return (
     <div className="sidebar">

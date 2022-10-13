@@ -1,8 +1,8 @@
 import "../css/Login.css";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "../axios";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -18,9 +18,7 @@ import { FaFacebookF, FaGoogle } from "react-icons/fa";
 
 const SIGNIN_URL = "http://localhost:8000/api/users/login";
 
-const Login = (props) => {
-  props.funcNav(false);
-
+const Login = () => {
   const buttonTheme = {
     fontWeight: "bold",
     textTransform: "none",
@@ -54,7 +52,7 @@ const Login = (props) => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("email", response.data.email);
 
-        navigate("/plaid");
+        navigate("/dashboard");
       } catch (error) {
         setLoginFail(true);
       }

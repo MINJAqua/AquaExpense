@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import axios from "../axios";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 import {
   usePlaidLink,
   PlaidLinkOnSuccess,
@@ -46,7 +47,7 @@ const PlaidLink = () => {
       const access_Token = responseData.access_token;
       setAccess_Token(access_Token);
 
-      navigate('/dashboard')
+      navigate("/dashboard");
     } catch (error) {
       console.log(error, "YOU FAILED TO GET ACCESS TOKEN");
     }
@@ -79,10 +80,17 @@ const PlaidLink = () => {
 
   return (
     <div>
-      <button onClick={() => open()} disabled={!ready}>
-        Connect a bank account
-      </button>
-      <div>testing plaid here</div>
+      <Button
+        variant="outlined"
+        onClick={() => open()}
+        disabled={!ready}
+        sx={{
+          backgroundColor: "black",
+          color: "white",
+        }}
+      >
+        Connect to a bank account
+      </Button>
     </div>
   );
 };

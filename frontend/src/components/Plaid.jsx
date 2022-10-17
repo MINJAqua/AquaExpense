@@ -9,6 +9,8 @@ import {
   //PlaidLinkOnExit,
   //PlaidLinkOptions,
 } from "react-plaid-link";
+import "../css/Plaid.css";
+import { FaChevronRight } from "react-icons/fa";
 
 
 const PlaidLink = () => {
@@ -65,17 +67,16 @@ const PlaidLink = () => {
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        onClick={() => open()}
-        disabled={!ready}
-        sx={{
-          backgroundColor: "black",
-          color: "white",
-        }}
-      >
-        Connect to a bank account
-      </Button>
+      <button className="plaid-button" onClick={() => open()} disabled={!ready}>
+        <span className="button-wrapper">
+          <span className="button-text">Connect with Plaid</span>
+          <span className="button-pic">
+            <i className="icon">
+              <FaChevronRight />
+            </i>
+          </span>
+        </span>
+      </button>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import Widget from "../components/Widget";
 import ProgressBar from "../components/ProgressBar";
 import LineGraph from "../components/LineChart";
 import Plaid from "../components/Plaid";
+import "../css/Dashboard.css";
 
 const Dashboard = () => {
   //array of all transactions from transactionResponse api call
@@ -43,7 +44,12 @@ const Dashboard = () => {
   }, []);
 
   return !account ? (
-    <Plaid />
+    <div className="plaid-container">
+      <Plaid />
+      <br />
+      <h2>or</h2>
+      <br />
+    </div>
   ) : (
     <div className="dashboard">
       <div className="select-accounts-container">

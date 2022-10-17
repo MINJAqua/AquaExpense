@@ -9,6 +9,8 @@ import {
   PlaidLinkOnExit,
   PlaidLinkOptions,
 } from "react-plaid-link";
+import "../css/Plaid.css";
+import { FaChevronRight } from "react-icons/fa";
 
 //use these varibles when making an axios request to avoid long url
 const transactionsEndpoint =
@@ -80,17 +82,16 @@ const PlaidLink = () => {
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        onClick={() => open()}
-        disabled={!ready}
-        sx={{
-          backgroundColor: "black",
-          color: "white",
-        }}
-      >
-        Connect to a bank account Hello
-      </Button>
+      <button className="plaid-button" onClick={() => open()} disabled={!ready}>
+        <span className="button-wrapper">
+          <span className="button-text">Connect with Plaid</span>
+          <span className="button-pic">
+            <i className="icon">
+              <FaChevronRight />
+            </i>
+          </span>
+        </span>
+      </button>
     </div>
   );
 };

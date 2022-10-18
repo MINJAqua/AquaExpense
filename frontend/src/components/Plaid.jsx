@@ -68,7 +68,6 @@ const PlaidLink = () => {
 
   return (
     <div>
-      {console.log(process.env)}
       <button className="plaid-button" onClick={() => open()} disabled={!ready}>
         <span className="button-wrapper">
           <span className="button-text">Connect using Plaid</span>

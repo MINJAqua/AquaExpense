@@ -94,7 +94,7 @@
   align-items: center;
 }
 
-.plaid-button:hover .icon {
+.plaid-button:hover .arrow-icon {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   text-align: left;
   cursor: pointer;
@@ -117,7 +117,7 @@
   transform: translateX(0.4rem);
 }
 
-.icon {
+.arrow-icon {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   cursor: pointer;
   text-align: left;

@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import axios from "../axios";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
 import {
   usePlaidLink,
   //PlaidLinkOnSuccess,
@@ -11,7 +10,6 @@ import {
 } from "react-plaid-link";
 import "../css/Plaid.css";
 import { FaChevronRight } from "react-icons/fa";
-
 
 const PlaidLink = () => {
   const [token, setToken] = useState(null);
@@ -32,24 +30,27 @@ const PlaidLink = () => {
     createLinkToken();
   }, []);
 
-  const onSuccess = useCallback((publicToken, metadata) => {
-    const exchangeToken = async (publicToken) => {
-      const email = localStorage.email;
-      console.log(publicToken);
-      try {
-        const response = await axios.post('/api/plaid/exchange', {
-          publicToken,
-          email,
-        });
-        const responseData = response.data;
-        console.log("response data", responseData);
-        navigate("/dashboard");
-      } catch (error) {
-        console.log(error, "YOU FAILED TO GET ACCESS TOKEN");
-      }
-    };
-    exchangeToken(publicToken);
-  }, [navigate]);
+  const onSuccess = useCallback(
+    (publicToken, metadata) => {
+      const exchangeToken = async (publicToken) => {
+        const email = localStorage.email;
+        console.log(publicToken);
+        try {
+          const response = await axios.post("/api/plaid/exchange", {
+            publicToken,
+            email,
+          });
+          const responseData = response.data;
+          console.log("response data", responseData);
+          navigate("/dashboard");
+        } catch (error) {
+          console.log(error, "YOU FAILED TO GET ACCESS TOKEN");
+        }
+      };
+      exchangeToken(publicToken);
+    },
+    [navigate]
+  );
 
   const config = {
     token,
@@ -69,9 +70,9 @@ const PlaidLink = () => {
     <div>
       <button className="plaid-button" onClick={() => open()} disabled={!ready}>
         <span className="button-wrapper">
-          <span className="button-text">Connect with Plaid</span>
+          <span className="button-text">Connect using Plaid</span>
           <span className="button-pic">
-            <i className="icon">
+            <i className="arrow-icon">
               <FaChevronRight />
             </i>
           </span>

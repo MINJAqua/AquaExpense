@@ -9,8 +9,14 @@ const cors = require("cors");
 connectDB();
 
 const app = express();
+
+const allowedDomains = [
+  "https://aqua-expense.herokuapp.com",
+  "http://localhost:3000",
+  "http://localhost:8000",
+];
 const corsConfig = {
-  credentials: true,
+  credentials: allowedDomains,
   origin: true,
 };
 

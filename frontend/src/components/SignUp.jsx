@@ -18,7 +18,7 @@ import {
 
 //const USER_REGEX = /^[A-z][A-z]$/;
 //const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const SIGNUP_URL = "http://localhost:8000/api/users";
+// const SIGNUP_URL = "http://localhost:8000/api/users";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -51,10 +51,14 @@ const SignUp = () => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(SIGNUP_URL, JSON.stringify(values), {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        });
+        const response = await axios.post(
+          "/api/users",
+          JSON.stringify(values),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        );
 
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("email", response.data.email);

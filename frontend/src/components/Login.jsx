@@ -16,7 +16,10 @@ import {
 } from "@mui/material";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 
-const SIGNIN_URL = "http://localhost:8000/api/users/login";
+// const SIGNIN_URL =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:8000/api/users/login"
+//     : "https://aqua-expenses.herokuapp.com/api/users/login";
 
 const Login = () => {
   const buttonTheme = {
@@ -42,10 +45,14 @@ const Login = () => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(SIGNIN_URL, JSON.stringify(values), {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        });
+        const response = await axios.post(
+          "/api/users/login",
+          JSON.stringify(values),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        );
 
         //The token stored in localStorage is a jwt token,
         //NOT the public token from plaid

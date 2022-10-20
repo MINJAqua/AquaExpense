@@ -20,3 +20,4 @@ This project was made using the MERN stack:
 * Adding CRUD functionality for expenses such as manually adding expenses, editting expenses and deleting expenses
 * Sending information from Plaid API to database
 * Make a single expense component to view and to edit the expense
+* Currently uses dummy data from the Plaid API, will change in the future for real data from user's bank

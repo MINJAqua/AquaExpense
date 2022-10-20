@@ -5,6 +5,8 @@ import Widget from "../components/Widget";
 import ProgressBar from "../components/ProgressBar";
 import LineGraph from "../components/LineChart";
 import Plaid from "../components/Plaid";
+import { FaPlusCircle } from "react-icons/fa";
+import { Divider, Typography } from "@mui/material";
 import "../css/Dashboard.css";
 
 const Dashboard = () => {
@@ -47,8 +49,18 @@ const Dashboard = () => {
     <div className="plaid-container">
       <Plaid />
       <br />
-      <h2>or</h2>
+      <Divider sx={{ padding: 3 }}>
+        <Typography sx={{ fontSize: "1.25rem" }} color="textSecondary">
+          or
+        </Typography>
+      </Divider>
       <br />
+      <div className="button-container">
+        <button className="add-expense">
+          Add your own expense {""}
+          <FaPlusCircle />
+        </button>
+      </div>
     </div>
   ) : (
     <div className="dashboard">

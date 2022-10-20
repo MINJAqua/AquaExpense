@@ -3,4 +3,61 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  align-items: center;
+}
+
+.button-container {
+  justify-content: center;
+  align-items: center;
+}
+
+.add-expense {
+  display: inline-block;
+  border: 0;
+  outline: 0;
+  padding: 1.3rem 1.25rem 1.25rem 1.3rem;
+  border-radius: 10rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.15rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  background-color: #008fb3;
+  z-index: 1;
+}
+
+.add-expense:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0cf;
+  border-radius: 10rem;
+  z-index: -2;
+}
+
+.add-expense:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: #009dc4;
+  transition: all 0.3s;
+  border-radius: 10rem;
+  z-index: -1;
+}
+
+.add-expense:hover {
+  color: #fff;
+}
+
+.add-expense:hover:before {
+  width: 100%;
 }

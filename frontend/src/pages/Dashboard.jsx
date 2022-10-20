@@ -48,6 +48,7 @@ const Dashboard = () => {
   return !account ? (
     <div className="plaid-container">
       <Plaid />
+      <Typography variant="h6">Refresh page after finishing Plaid</Typography>
       <br />
       <Divider sx={{ padding: 3 }}>
         <Typography sx={{ fontSize: "1.25rem" }} color="textSecondary">

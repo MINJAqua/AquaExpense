@@ -14,7 +14,7 @@ function App() {
     <div className="App">
       <Sidebar />
       <div className="container">
-        <Navbar />
+        {/* <Navbar /> */}
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

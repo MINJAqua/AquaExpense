@@ -8,7 +8,7 @@
 
 /* Sidebar CSS */
 .sidebar {
-  flex: 1;
+  flex: 0.85;
   border-right: 0.5px solid rgb(229, 228, 228);
   min-height: 100vh;
   background-color: white;

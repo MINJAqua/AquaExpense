@@ -31,7 +31,7 @@ const Sidebar = () => {
             </Link>
           </li>
 
-          <p className="title">User</p>
+          {/* <p className="title">User</p> */}
           <li>
             <AccountCircleIcon className="icon" />
             <Link className="link" to="/Profile">
@@ -50,12 +50,12 @@ const Sidebar = () => {
               Logout
             </Link>
           </li>
-          <li>
+          {/* <li>
             <PersonAddAltIcon className="icon" />
             <Link className="link" to="/signup">
               Signup
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

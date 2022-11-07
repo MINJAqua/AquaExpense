@@ -23,6 +23,7 @@ const Dashboard = () => {
 
   const handleChange = (e) => {
     const handleChangeAccount = JSON.parse(e.target.value);
+    console.log(handleChangeAccount);
     setAccount(handleChangeAccount);
   };
 
@@ -34,6 +35,7 @@ const Dashboard = () => {
           "/api/plaid/transactions",
           { params: { email: email } }
         );
+
         const userTransactions = transactionsResponse.data;
         setTransactions(userTransactions.transactions);
         setAccounts(userTransactions.accounts);
@@ -44,7 +46,7 @@ const Dashboard = () => {
     };
     getTransactions();
   }, []);
-
+  console.log(accounts);
   return !account ? (
     <div className="plaid-container">
       <Plaid />
@@ -67,6 +69,7 @@ const Dashboard = () => {
     <div className="dashboard">
       <div className="select-accounts-container">
         <select className="select-accounts" onChange={handleChange}>
+          <option value={transactions}>All</option>
           {accounts.map((account, index) => {
             return (
               <option value={JSON.stringify(account)} key={index}>

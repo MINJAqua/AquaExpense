@@ -3,6 +3,7 @@ import axios from "../axios";
 import TransactionTable from "../components/TransactionTable";
 import Widget from "../components/Widget";
 import ProgressBar from "../components/ProgressBar";
+import PieChart from "../components/PieChart";
 import LineGraph from "../components/LineChart";
 import Plaid from "../components/Plaid";
 import { FaPlusCircle } from "react-icons/fa";
@@ -23,7 +24,7 @@ const Dashboard = () => {
 
   const handleChange = (e) => {
     const handleChangeAccount = JSON.parse(e.target.value);
-    console.log(handleChangeAccount);
+
     setAccount(handleChangeAccount);
   };
 
@@ -46,7 +47,7 @@ const Dashboard = () => {
     };
     getTransactions();
   }, []);
-  console.log(accounts);
+
   return !account ? (
     <div className="plaid-container">
       <Plaid />
@@ -69,7 +70,6 @@ const Dashboard = () => {
     <div className="dashboard">
       <div className="select-accounts-container">
         <select className="select-accounts" onChange={handleChange}>
-          <option value={transactions}>All</option>
           {accounts.map((account, index) => {
             return (
               <option value={JSON.stringify(account)} key={index}>
@@ -79,6 +79,7 @@ const Dashboard = () => {
           })}
         </select>
       </div>
+
       <div className="widgets">
         {account ? <Widget type="account" account={account} /> : null}
         {account && transactions ? (
@@ -97,8 +98,9 @@ const Dashboard = () => {
         ) : null}
       </div>
       {transactions && account ? (
-        <div className="charts">
-          <ProgressBar />
+        <div className="charts" style={{ height: 500 }}>
+          {/* <ProgressBar /> */}
+          <PieChart transactions={transactions} account={account} />
           <LineGraph transactions={transactions} account={account} />
         </div>
       ) : null}

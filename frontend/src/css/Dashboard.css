@@ -61,3 +61,8 @@
 .add-expense:hover:before {
   width: 100%;
 }
+
+.charts {
+  height: auto;
+  width: auto;
+}

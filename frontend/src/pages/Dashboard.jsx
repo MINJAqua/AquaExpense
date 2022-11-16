@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "../axios";
 import TransactionTable from "../components/TransactionTable";
 import Widget from "../components/Widget";
-import ProgressBar from "../components/ProgressBar";
 import PieChart from "../components/PieChart";
 import LineGraph from "../components/LineChart";
 import Plaid from "../components/Plaid";

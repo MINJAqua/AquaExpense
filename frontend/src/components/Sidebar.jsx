@@ -4,7 +4,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LoginIcon from "@mui/icons-material/Login";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
 const Sidebar = () => {
   //All TBD Icons are being directed to setting page for now but will change when we actaully have stuff

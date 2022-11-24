@@ -97,7 +97,7 @@ const Dashboard = () => {
         ) : null}
       </div>
       {transactions && account ? (
-        <div className="charts" style={{ height: 500 }}>
+        <div className="charts">
           {/* <ProgressBar /> */}
           <PieChart transactions={transactions} account={account} />
           <LineGraph transactions={transactions} account={account} />

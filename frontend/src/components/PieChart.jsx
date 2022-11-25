@@ -55,7 +55,7 @@ const PieChart = ({ transactions, account }) => {
       <div className="pie-chart">
         <ResponsivePie
           data={data}
-          margin={{ top: 10, right: 80, bottom: 20, left: 0 }}
+          margin={{ top: 10, right: 120, bottom: 20, left: 0 }}
           valueFormat=" =-.2%"
           innerRadius={0.7}
           padAngle={2}
@@ -75,12 +75,45 @@ const PieChart = ({ transactions, account }) => {
             from: "color",
             modifiers: [["darker", 2]],
           }}
+          tooltip={({ datum: { id, value, color, data } }) => (
+            <div
+              style={{
+                padding: 12,
+                color,
+                background: "white",
+                borderRadius: "5px",
+                borderStyle: "solid",
+              }}
+            >
+              <span>{id}</span>
+              <br />
+              <span style={{ color: "black", fontWeight: "bold" }}>
+                ${data.sum}
+              </span>
+            </div>
+          )}
+          // tooltip={function (e) {
+          //   var t = e.datum;
+          //   return (0, a.jsxs)(s, {
+          //     style: { color: t.color },
+          //     children: [
+          //       (0, a.jsx)(d, { children: "id" }),
+          //       (0, a.jsx)(c, { children: t.id }),
+          //       (0, a.jsx)(d, { children: "value" }),
+          //       (0, a.jsx)(c, { children: t.value }),
+          //       (0, a.jsx)(d, { children: "formattedValue" }),
+          //       (0, a.jsx)(c, { children: t.formattedValue }),
+          //       (0, a.jsx)(d, { children: "color" }),
+          //       (0, a.jsx)(c, { children: t.color }),
+          //     ],
+          //   });
+          // }}
           legends={[
             {
               anchor: "right",
               direction: "column",
               justify: false,
-              translateX: 30,
+              translateX: 80,
               translateY: 0,
               itemWidth: 80,
               itemHeight: 20,

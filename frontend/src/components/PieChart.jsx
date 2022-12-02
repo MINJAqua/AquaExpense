@@ -67,6 +67,7 @@ const PieChart = ({ transactions, account }) => {
             modifiers: [["darker", "1"]],
           }}
           enableArcLinkLabels={false}
+          arcLabelsSkipAngle={9}
           arcLinkLabelsSkipAngle={10}
           arcLinkLabelsTextColor="#333333"
           arcLinkLabelsThickness={2}
@@ -92,22 +93,6 @@ const PieChart = ({ transactions, account }) => {
               </span>
             </div>
           )}
-          // tooltip={function (e) {
-          //   var t = e.datum;
-          //   return (0, a.jsxs)(s, {
-          //     style: { color: t.color },
-          //     children: [
-          //       (0, a.jsx)(d, { children: "id" }),
-          //       (0, a.jsx)(c, { children: t.id }),
-          //       (0, a.jsx)(d, { children: "value" }),
-          //       (0, a.jsx)(c, { children: t.value }),
-          //       (0, a.jsx)(d, { children: "formattedValue" }),
-          //       (0, a.jsx)(c, { children: t.formattedValue }),
-          //       (0, a.jsx)(d, { children: "color" }),
-          //       (0, a.jsx)(c, { children: t.color }),
-          //     ],
-          //   });
-          // }}
           legends={[
             {
               anchor: "right",

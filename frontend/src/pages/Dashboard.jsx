@@ -4,6 +4,7 @@ import TransactionTable from "../components/TransactionTable";
 import Widget from "../components/Widget";
 import PieChart from "../components/PieChart";
 import LineGraph from "../components/LineChart";
+import BarChart from "../components/BarChart";
 import Plaid from "../components/Plaid";
 import { FaPlusCircle } from "react-icons/fa";
 import { Divider, Typography } from "@mui/material";
@@ -100,7 +101,8 @@ const Dashboard = () => {
         <div className="charts">
           {/* <ProgressBar /> */}
           <PieChart transactions={transactions} account={account} />
-          <LineGraph transactions={transactions} account={account} />
+          <BarChart transactions={transactions} account={account} />
+          {/* <LineGraph transactions={transactions} account={account} /> */}
         </div>
       ) : null}
       {transactions && account ? (

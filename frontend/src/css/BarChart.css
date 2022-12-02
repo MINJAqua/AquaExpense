@@ -1,0 +1,13 @@
+.bar-container {
+  flex: 1.85;
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  color: grey;
+  padding: 10px;
+}
+
+.bar-chart {
+  height: 400px;
+  width: 610px;
+  text-align: center;
+  position: relative;
+}

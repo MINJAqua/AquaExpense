@@ -6,6 +6,7 @@ import PieChart from "../components/PieChart";
 import LineGraph from "../components/LineChart";
 import BarChart from "../components/BarChart";
 import Plaid from "../components/Plaid";
+import SmallPlaid from "../components/SmallPlaid";
 import { FaPlusCircle } from "react-icons/fa";
 import { Divider, Typography } from "@mui/material";
 import "../css/Dashboard.css";
@@ -51,7 +52,6 @@ const Dashboard = () => {
   return !account ? (
     <div className="plaid-container">
       <Plaid />
-      <Typography variant="h6">Refresh page after finishing Plaid</Typography>
       <br />
       <Divider sx={{ padding: 3 }}>
         <Typography sx={{ fontSize: "1.25rem" }} color="textSecondary">
@@ -78,6 +78,7 @@ const Dashboard = () => {
             );
           })}
         </select>
+        <SmallPlaid />
       </div>
 
       <div className="widgets">

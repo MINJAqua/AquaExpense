@@ -1,5 +1,5 @@
 .plaid-container {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -68,13 +68,19 @@
 }
 
 .select-accounts-container {
+  display: flex;
   padding: 10px 0 0 20px;
 }
 
 .select-accounts {
+  display: flex;
   font-size: 1rem;
   padding: 0.5rem 4rem 0.5rem 0.5rem;
   background-color: white;
   color: grey;
   border-radius: 0.25em;
+}
+
+.small-plaid {
+  justify-content: flex-end;
 }

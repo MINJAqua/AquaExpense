@@ -66,3 +66,15 @@
   height: auto;
   width: auto;
 }
+
+.select-accounts-container {
+  padding: 10px 0 0 20px;
+}
+
+.select-accounts {
+  font-size: 1rem;
+  padding: 0.5rem 4rem 0.5rem 0.5rem;
+  background-color: white;
+  color: grey;
+  border-radius: 0.25em;
+}

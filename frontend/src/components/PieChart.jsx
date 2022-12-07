@@ -60,7 +60,7 @@ const PieChart = ({ transactions, account }) => {
           innerRadius={0.7}
           padAngle={2}
           activeOuterRadiusOffset={8}
-          colors={{ scheme: "nivo" }}
+          colors={{ scheme: "pastel1" }}
           borderWidth={1}
           borderColor={{
             from: "color",

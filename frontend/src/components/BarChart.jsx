@@ -42,32 +42,12 @@ function BarChart({ transactions, account }) {
         <ResponsiveBar
           data={data}
           indexBy="category"
-          margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
+          margin={{ top: 50, right: 60, bottom: 50, left: 80 }}
           valueScale={{ type: "linear" }}
           indexScale={{ type: "band", round: true }}
           valueFormat=" >-$"
-          colors={{ scheme: "nivo" }}
+          colors={{ scheme: "pastel1" }}
           colorBy="indexValue"
-          defs={[
-            {
-              id: "dots",
-              type: "patternDots",
-              background: "inherit",
-              color: "#38bcb2",
-              size: 4,
-              padding: 1,
-              stagger: true,
-            },
-            {
-              id: "lines",
-              type: "patternLines",
-              background: "inherit",
-              color: "#eed312",
-              rotation: -45,
-              lineWidth: 6,
-              spacing: 10,
-            },
-          ]}
           borderColor={{
             from: "color",
             modifiers: [["darker", 1.6]],
@@ -86,7 +66,7 @@ function BarChart({ transactions, account }) {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: "Total",
+            legend: "Cost",
             legendPosition: "middle",
             legendOffset: -50,
           }}

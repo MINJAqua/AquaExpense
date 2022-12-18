@@ -11,7 +11,7 @@ import {
 import "../css/SmallPlaid.css";
 import { FaChevronRight } from "react-icons/fa";
 
-const PlaidLink = () => {
+const SmallPlaidLink = ({ setAccounts, setAccount, setTransactions }) => {
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
   // get a link_token from your API when component mounts
@@ -21,7 +21,6 @@ const PlaidLink = () => {
       try {
         const response = await axios.post("/api/plaid", { email });
         const link_token = response.data.link_token;
-        console.log("Your link_token is", link_token);
         setToken(link_token);
       } catch (error) {
         console.log(error, "YOU FAILED TO GET A TOKEN");
@@ -34,7 +33,6 @@ const PlaidLink = () => {
     (publicToken, metadata) => {
       const exchangeToken = async (publicToken) => {
         const email = localStorage.email;
-        console.log(publicToken);
         try {
           const response = await axios.post("/api/plaid/exchange", {
             publicToken,
@@ -42,6 +40,16 @@ const PlaidLink = () => {
           });
           const responseData = response.data;
           console.log("response data", responseData);
+          const transactionsResponse = await axios.get(
+            "/api/plaid/transactions",
+            { params: { email: email } }
+          );
+          const userTransactions = transactionsResponse.data;
+
+          setTransactions(userTransactions.transactions);
+          setAccounts(userTransactions.accounts);
+          setAccount(userTransactions.accounts[0]);
+
           navigate("/dashboard");
         } catch (error) {
           console.log(error, "YOU FAILED TO GET ACCESS TOKEN");
@@ -49,7 +57,7 @@ const PlaidLink = () => {
       };
       exchangeToken(publicToken);
     },
-    [navigate]
+    [navigate, setAccount, setAccounts, setTransactions]
   );
 
   const config = {
@@ -83,7 +91,7 @@ const PlaidLink = () => {
     </button>
   );
 };
-export default PlaidLink;
+export default SmallPlaidLink;
 
 //DO NOT WORRY ABOUT THESE CALLBACK FUNCTIONS YET
 

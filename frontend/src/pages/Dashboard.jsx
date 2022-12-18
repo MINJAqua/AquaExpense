@@ -29,29 +29,13 @@ const Dashboard = () => {
     setAccount(handleChangeAccount);
   };
 
-  useEffect(() => {
-    const getTransactions = async () => {
-      const email = localStorage.email;
-      try {
-        const transactionsResponse = await axios.get(
-          "/api/plaid/transactions",
-          { params: { email: email } }
-        );
-
-        const userTransactions = transactionsResponse.data;
-        setTransactions(userTransactions.transactions);
-        setAccounts(userTransactions.accounts);
-        setAccount(userTransactions.accounts[0]);
-      } catch (error) {
-        console.log(error, "FAILED TO GET ACCESS TOKEN OR TRANSACTIONS");
-      }
-    };
-    getTransactions();
-  }, []);
-
   return !account ? (
     <div className="plaid-container">
-      <Plaid />
+      <Plaid
+        setAccounts={setAccounts}
+        setAccount={setAccount}
+        setTransactions={setTransactions}
+      />
       <br />
       <Divider sx={{ padding: 3 }}>
         <Typography sx={{ fontSize: "1.25rem" }} color="textSecondary">
@@ -78,7 +62,11 @@ const Dashboard = () => {
             );
           })}
         </select>
-        <SmallPlaid />
+        <SmallPlaid
+          setAccounts={setAccounts}
+          setAccount={setAccount}
+          setTransactions={setTransactions}
+        />
       </div>
 
       <div className="widgets">
@@ -101,6 +89,7 @@ const Dashboard = () => {
       {transactions && account ? (
         <div className="charts">
           {/* <ProgressBar /> */}
+
           <PieChart transactions={transactions} account={account} />
           <BarChart transactions={transactions} account={account} />
           {/* <LineGraph transactions={transactions} account={account} /> */}

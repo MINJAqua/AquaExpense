@@ -37,12 +37,12 @@ const Sidebar = () => {
               Profile
             </Link>
           </li>
-          <li>
+          {/* <li>
             <SettingsIcon className="icon" />
             <Link className="link" to="/Settings">
               Settings
             </Link>
-          </li>
+          </li> */}
           <li>
             <LoginIcon className="icon" />
             <Link className="link" to="/">

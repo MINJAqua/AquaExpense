@@ -3,9 +3,7 @@ const asyncHandler = require("express-async-handler");
 //@Get Expense
 // GET api/expense
 
-const getExpenses = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Get expense" });
-});
+const getExpenses = asyncHandler(async (req, res) => {});
 
 //@Set Expense
 // SET api/expense

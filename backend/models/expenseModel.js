@@ -1,20 +1,27 @@
 const mongoose = require("mongoose");
 
-const expenseSchema = mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "User",
-    },
-    text: {
-      type: String,
-      required: [true, "Please add a text value"],
-    },
+const expenseSchema = mongoose.Schema({
+  account_id: {
+    type: String,
+    required: true,
   },
-  {
-    timestamps: true,
-  }
-);
+  amount: {
+    type: Number,
+    required: true,
+  },
+  iso_currency_code: String,
+  category: {
+    type: String,
+    required: true,
+  },
+  category_id: String,
+  date: {
+    type: String,
+    required: true,
+  },
+  name: String,
+  merchant_name: String,
+  pending: Boolean,
+});
 
 module.exports = mongoose.model("Expense", expenseSchema);

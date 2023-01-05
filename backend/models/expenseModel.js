@@ -16,10 +16,13 @@ const expenseSchema = mongoose.Schema({
   },
   category_id: String,
   date: {
+    type: Date,
+    required: true,
+  },
+  name: {
     type: String,
     required: true,
   },
-  name: String,
   merchant_name: String,
   pending: Boolean,
 });

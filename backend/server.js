@@ -23,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/expense", require("./routes/expenseRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/plaid", require("./routes/plaid"));
+app.use("/api/account", require("./routes/accountRoutes"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/build")));

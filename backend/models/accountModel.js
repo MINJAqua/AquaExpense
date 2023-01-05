@@ -1,16 +1,18 @@
 const mongoose = require("mongoose");
 
 const accountModel = mongoose.Schema({
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   account_id: {
     type: String,
     required: true,
   },
   balances: {
-    available: Number,
-    current: Number,
-    limit: Number,
-    iso_currency_code: String,
-    last_updated_time: String,
+    type: Number,
+    required: true,
   },
   mask: String,
   name: {
@@ -19,7 +21,6 @@ const accountModel = mongoose.Schema({
   },
   official_name: {
     type: String,
-    required: true,
   },
   type: {
     type: String,
@@ -27,4 +28,4 @@ const accountModel = mongoose.Schema({
   },
 });
 
-mondule.exports = mongoose.model("Account", accountModel);
+module.exports = mongoose.model("Account", accountModel);

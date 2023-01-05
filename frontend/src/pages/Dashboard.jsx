@@ -18,7 +18,7 @@ const Dashboard = () => {
 
   //array of all the accounts that were selected when completing plaid link
   const [accounts, setAccounts] = useState([]);
-
+  console.log(accounts, transactions);
   //account selected inside the select dropdown list
   //default value is false because we are conditionally rendering Widget child component
   const [account, setAccount] = useState(false);

@@ -8,7 +8,6 @@ const accountModel = mongoose.Schema({
   },
   account_id: {
     type: String,
-    required: true,
   },
   balances: {
     type: Number,

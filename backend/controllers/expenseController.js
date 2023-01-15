@@ -7,7 +7,7 @@ const Expense = require("../models/expenseModel");
 const getExpenses = asyncHandler(async (req, res) => {
   const expenses = await Expense.find();
 
-  res.status(200).json(expenses);
+  res.status(200).json(expense);
 });
 
 //@Set Expense

@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Account = require("../models/accountModel");
+const User = require("../models/userModel");
 
 //@Get Account
 // GET api/account
@@ -14,12 +15,25 @@ const getAccounts = asyncHandler(async (req, res) => {
 // POST api/account
 
 const createAccount = asyncHandler(async (req, res) => {
-  const { user_id, account_id, balances, mask, name, official_name, type } =
-    req.body;
+  let {
+    email,
+    user_id,
+    account_id,
+    balances,
+    mask,
+    name,
+    official_name,
+    type,
+  } = req.body;
+
+  if (email) {
+    const user = await User.findOne({ email: email });
+    user_id = user._id.toString();
+  }
 
   //Checks if any of the required fields are missing
   //If any are missing then give an error
-  if (!account_id || !balances || !mask || !name || !type) {
+  if (!user_id || !balances || !name || !type) {
     res.status(400);
     throw new Error("Please fill all required fields");
   }

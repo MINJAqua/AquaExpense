@@ -30,7 +30,6 @@ const Dashboard = () => {
       type: "",
     },
     onSubmit: async (values, { resetForm }) => {
-      console.log(values);
       try {
         const email = localStorage.getItem("email");
         values.email = email;
@@ -43,15 +42,11 @@ const Dashboard = () => {
           }
         );
         resetForm();
-        setOpen(false);
+        handleClose();
       } catch (error) {
         console.log(error);
       }
     },
-  });
-
-  useEffect(() => {
-    const getAccounts = async () => {};
   });
 
   const [open, setOpen] = useState(false);
@@ -80,6 +75,25 @@ const Dashboard = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const getAccounts = async () => {
+      const email = localStorage.getItem("email");
+      try {
+        const response = await axios.get("/api/account", {
+          params: { email },
+        });
+        console.log(response);
+        let accounts = response.data;
+
+        setAccounts(accounts);
+        setAccount(accounts[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAccounts();
+  }, [setAccount, setAccounts]);
 
   return !account ? (
     <div className="plaid-container">

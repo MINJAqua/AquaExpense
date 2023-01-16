@@ -6,7 +6,12 @@ const User = require("../models/userModel");
 // GET api/account
 
 const getAccounts = asyncHandler(async (req, res) => {
-  const accounts = await Account.find();
+  let { email } = req.query;
+
+  const user = await User.findOne({ email: email });
+  user_id = user._id.toString();
+
+  const accounts = await Account.find({ user_id: user_id });
 
   res.status(200).json(accounts);
 });

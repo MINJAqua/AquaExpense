@@ -5,7 +5,7 @@ import BalanceIcon from "@mui/icons-material/Balance";
 
 const Widget = ({ type, account, transactions }) => {
   const accountName = account.name;
-  const AccountBalance = account.balances.available || account.balances.current;
+  const AccountBalance = account.balances;
 
   const totalTransactions = () => {
     let count = 0;
@@ -14,6 +14,7 @@ const Widget = ({ type, account, transactions }) => {
         count++;
       }
     });
+
     return count;
   };
 
@@ -70,7 +71,8 @@ const Widget = ({ type, account, transactions }) => {
         ),
       };
       break;
-    default: break;
+    default:
+      break;
   }
 
   return (

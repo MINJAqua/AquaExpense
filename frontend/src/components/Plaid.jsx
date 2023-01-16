@@ -34,13 +34,12 @@ const PlaidLink = ({ setAccounts, setAccount, setTransactions }) => {
     (publicToken, metadata) => {
       const exchangeToken = async (publicToken) => {
         const email = localStorage.email;
-        console.log(publicToken);
+
         try {
           const response = await axios.post("/api/plaid/exchange", {
             publicToken,
             email,
           });
-          const responseData = response.data;
 
           const transactionsResponse = await axios.get(
             "/api/plaid/transactions",
@@ -51,6 +50,7 @@ const PlaidLink = ({ setAccounts, setAccount, setTransactions }) => {
           setTransactions(userTransactions.transactions);
           setAccounts(userTransactions.accounts);
           setAccount(userTransactions.accounts[0]);
+          console.log(userTransactions);
           navigate("/dashboard");
         } catch (error) {
           console.log(error, "YOU FAILED TO GET ACCESS TOKEN");

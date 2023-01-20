@@ -85,3 +85,8 @@
 .small-plaid {
   justify-content: flex-end;
 }
+
+.expense-container {
+  display: flex;
+  justify-content: center;
+}

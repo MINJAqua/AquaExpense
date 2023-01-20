@@ -1,59 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
-import { useFormik } from "formik";
 import TransactionTable from "../components/TransactionTable";
 import Widget from "../components/Widget";
 import PieChart from "../components/PieChart";
 import BarChart from "../components/BarChart";
+import AccountDialog from "../components/AccountDialog";
 import Plaid from "../components/Plaid";
 import SmallPlaid from "../components/SmallPlaid";
 import { FaPlusCircle } from "react-icons/fa";
-import {
-  Divider,
-  Typography,
-  Button,
-  Dialog,
-  TextField,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  MenuItem,
-} from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import "../css/Dashboard.css";
 
 const Dashboard = () => {
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      balances: "",
-      type: "",
-    },
-    onSubmit: async (values, { resetForm }) => {
-      try {
-        const email = localStorage.getItem("email");
-        values.email = email;
-        const response = await axios.post(
-          "/api/account",
-          JSON.stringify(values),
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          }
-        );
-        resetForm();
-        handleClose();
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  });
-
-  const [open, setOpen] = useState(false);
-
+  const [openDialog, setOpenDialog] = useState(false);
   //array of all transactions from transactionResponse api call
   //default value is false because we are conditionally rendering TransactionTable child component
-  const [transactions, setTransactions] = useState(false);
+  const [transactions, setTransactions] = useState([]);
 
   //array of all the accounts that were selected when completing plaid link
   const [accounts, setAccounts] = useState([]);
@@ -68,14 +30,6 @@ const Dashboard = () => {
     setAccount(handleChangeAccount);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   useEffect(() => {
     const getAccounts = async () => {
       const email = localStorage.getItem("email");
@@ -84,16 +38,16 @@ const Dashboard = () => {
           params: { email },
         });
         console.log(response);
-        let accounts = response.data;
+        let accountData = response.data;
 
-        setAccounts(accounts);
-        setAccount(accounts[0]);
+        setAccounts(accountData);
+        setAccount(accountData[0]);
       } catch (error) {
         console.log(error);
       }
     };
     getAccounts();
-  }, [setAccount, setAccounts]);
+  }, []);
 
   return !account ? (
     <div className="plaid-container">
@@ -110,61 +64,16 @@ const Dashboard = () => {
       </Divider>
       <br />
       <div className="button-container">
-        <button className="add-expense" onClick={handleClickOpen}>
+        <button className="add-expense" onClick={() => setOpenDialog(true)}>
           Create your expenese {""}
           <FaPlusCircle />
         </button>
-        <Dialog
-          fullWidth
-          open={open}
-          onClose={handleClose}
-          sx={{
-            "& .MuiTextField-root": { m: 1, width: "25ch" },
-          }}
-        >
-          <DialogTitle>Create an account</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Create an account to store your expenses
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Name of Account"
-              fullWidth
-              variant="standard"
-              onChange={formik.handleChange}
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="balances"
-              label="Balance"
-              type="number"
-              variant="standard"
-              onChange={formik.handleChange}
-            />
-            <TextField
-              sx={{ m: 1, width: "25ch" }}
-              label="Type"
-              id="type"
-              name="type"
-              select
-              defaultValue={""}
-              onChange={formik.handleChange}
-            >
-              <MenuItem value="Credit">Credit</MenuItem>
-              <MenuItem value="Depository">Depository</MenuItem>
-              <MenuItem value="Loan">Loan</MenuItem>
-              <MenuItem value="Other">Other</MenuItem>
-            </TextField>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={formik.handleSubmit}>Create</Button>
-          </DialogActions>
-        </Dialog>
+        <AccountDialog
+          show={openDialog}
+          close={() => setOpenDialog(false)}
+          setAccounts={setAccounts}
+          setAccount={setAccount}
+        />
       </div>
     </div>
   ) : (
@@ -179,6 +88,14 @@ const Dashboard = () => {
             );
           })}
         </select>
+        <button onClick={() => setOpenDialog(true)}>Click here</button>
+        <AccountDialog
+          show={openDialog}
+          close={() => setOpenDialog(false)}
+          setAccounts={setAccounts}
+          setAccount={setAccount}
+          accounts={accounts}
+        />
         <SmallPlaid
           setAccounts={setAccounts}
           setAccount={setAccount}
@@ -188,7 +105,7 @@ const Dashboard = () => {
 
       <div className="widgets">
         {account ? <Widget type="account" account={account} /> : null}
-        {account && transactions ? (
+        {account ? (
           <Widget
             type="transactions"
             transactions={transactions}
@@ -203,7 +120,7 @@ const Dashboard = () => {
           />
         ) : null}
       </div>
-      {transactions && account ? (
+      {transactions.length !== 0 && account ? (
         <div className="charts">
           {/* <ProgressBar /> */}
 
@@ -212,10 +129,12 @@ const Dashboard = () => {
           {/* <LineGraph transactions={transactions} account={account} /> */}
         </div>
       ) : null}
-      {transactions && account ? (
+      {transactions.length !== 0 && account ? (
         <TransactionTable transactions={transactions} account={account} />
       ) : (
-        "need to update"
+        <div className="expense-container">
+          <button className="expense-button">Click here</button>
+        </div>
       )}
     </div>
   );

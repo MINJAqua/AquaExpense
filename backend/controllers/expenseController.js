@@ -7,7 +7,7 @@ const Expense = require("../models/expenseModel");
 const getExpenses = asyncHandler(async (req, res) => {
   const expenses = await Expense.find();
 
-  res.status(200).json(expense);
+  res.status(200).json(expenses);
 });
 
 //@Set Expense
@@ -15,18 +15,19 @@ const getExpenses = asyncHandler(async (req, res) => {
 
 const setExpense = asyncHandler(async (req, res) => {
   const {
-    account_id,
+    account_id = req.query.account_id,
     amount,
     iso_currency_code,
     category,
     date,
     name,
     merchant_name,
+    pending,
   } = req.body;
 
   //Checks if any of the required fields are missing
   //If any are missing then give an error
-  if (!account_id || !amount || !category || !date || !name) {
+  if (!amount || !category || !date || !name) {
     res.status(400);
     throw new Error("Please fill all required fields");
   }
@@ -39,6 +40,7 @@ const setExpense = asyncHandler(async (req, res) => {
     date,
     name,
     merchant_name,
+    pending,
   });
 
   if (expense) {
@@ -50,6 +52,7 @@ const setExpense = asyncHandler(async (req, res) => {
       date: expense.date,
       name: expense.name,
       merchant_name: expense.merchant_name,
+      pending: expense.pending,
     });
     console.log("expense created");
   } else {

@@ -80,6 +80,8 @@
   background-color: white;
   color: grey;
   border-radius: 0.25em;
+  max-width: 20rem;
+  margin-right: 1rem;
 }
 
 .small-plaid {

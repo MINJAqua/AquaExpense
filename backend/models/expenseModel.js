@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const expenseSchema = mongoose.Schema({
   account_id: {
     type: String,
-    required: true,
   },
   amount: {
     type: Number,

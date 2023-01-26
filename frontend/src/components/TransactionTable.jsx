@@ -10,7 +10,8 @@ import Paper from "@mui/material/Paper";
 
 const TransactionTable = ({ transactions, account }) => {
   const [accountTransactions, setAccountTransactions] = useState([]);
-  const accountId = account.account_id;
+  const accountId = account._id;
+
   //Set the transactions equal to row because accountTransactions is a very long variable lol
   const rows = accountTransactions;
   const tableRowStyle = { fontWeight: "bold" };
@@ -39,6 +40,8 @@ const TransactionTable = ({ transactions, account }) => {
     };
     populateRows();
   }, [accountId, transactions]);
+
+  console.log("transactions", transactions, account);
 
   return (
     <div className="table-container">

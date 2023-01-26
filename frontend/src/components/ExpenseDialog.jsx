@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { useFormik } from "formik";
-import axios from "../axios";
 import {
   Button,
   Dialog,
@@ -11,31 +8,42 @@ import {
   DialogTitle,
   MenuItem,
 } from "@mui/material";
+import { useFormik } from "formik";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import axios from "../axios";
 
-function AccountDialog({ show, close, setAccount, setAccounts, accounts }) {
+function ExpenseDialog({
+  show,
+  close,
+  account,
+  setTransactions,
+  transactions,
+}) {
   const formik = useFormik({
     initialValues: {
+      amount: "",
+      category: "",
+      date: Date.now(),
       name: "",
-      balances: 0,
-      type: "",
+      merchant_name: "",
+      pending: false,
     },
     onSubmit: async (values, { resetForm }) => {
       try {
-        const email = localStorage.getItem("email");
-        values.email = email;
+        const accountId = account._id;
         const response = await axios.post(
-          "/api/account",
+          "/api/expense",
           JSON.stringify(values),
           {
+            params: { account_id: accountId },
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
           }
         );
 
-        let newAccount = response.data;
-
-        setAccounts([newAccount, ...accounts]);
-        setAccount(response.data);
+        let newExpense = response.data;
+        console.log(setTransactions);
+        setTransactions([newExpense]);
 
         resetForm();
         close();
@@ -54,43 +62,56 @@ function AccountDialog({ show, close, setAccount, setAccounts, accounts }) {
       open={show}
       onClose={close}
     >
-      <DialogTitle>Create an account</DialogTitle>
+      <DialogTitle>Add an Expense</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Create an account to store your expenses
-        </DialogContentText>
+        <DialogContentText>Create an Expense</DialogContentText>
         <TextField
           autoFocus
           margin="dense"
           id="name"
-          label="Name of Account"
+          label="Expense Name"
           fullWidth
           variant="standard"
           onChange={formik.handleChange}
         />
         <TextField
+          margin="dense"
+          id="merchant_name"
+          label="Merchant Name"
+          variant="standard"
+          onChange={formik.handleChange}
+        />
+        <TextField
           autoFocus
           margin="dense"
-          id="balances"
-          label="Balance"
+          id="amount"
+          label="Amount"
           type="number"
           variant="standard"
           onChange={formik.handleChange}
         />
         <TextField
-          sx={{ m: 1, width: "25ch" }}
-          label="Type"
-          id="type"
-          name="type"
+          sx={{ m: 1 }}
+          label="Category"
+          id="category"
+          name="category"
           select
           defaultValue={""}
           onChange={formik.handleChange}
         >
-          <MenuItem value="Credit">Credit</MenuItem>
-          <MenuItem value="Depository">Depository</MenuItem>
+          <MenuItem value="Entertainment">Entertainment</MenuItem>
+          <MenuItem value="Food">Food</MenuItem>
           <MenuItem value="Loan">Loan</MenuItem>
+          <MenuItem value="Transportation">Transportation</MenuItem>
           <MenuItem value="Other">Other</MenuItem>
         </TextField>
+        <DesktopDatePicker
+          label="Date"
+          inputFormat="MM/DD/YYYY"
+          value={formik.values.date}
+          onChange={(value) => formik.setFieldValue("date", value)}
+          renderInput={(params) => <TextField {...params} />}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={close}>Cancel</Button>
@@ -100,4 +121,4 @@ function AccountDialog({ show, close, setAccount, setAccounts, accounts }) {
   );
 }
 
-export default AccountDialog;
+export default ExpenseDialog;

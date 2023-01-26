@@ -5,14 +5,17 @@ import Widget from "../components/Widget";
 import PieChart from "../components/PieChart";
 import BarChart from "../components/BarChart";
 import AccountDialog from "../components/AccountDialog";
+import ExpenseDialog from "../components/ExpenseDialog";
 import Plaid from "../components/Plaid";
 import SmallPlaid from "../components/SmallPlaid";
 import { FaPlusCircle } from "react-icons/fa";
-import { Divider, Typography } from "@mui/material";
+import { Divider, Typography, Button } from "@mui/material";
 import "../css/Dashboard.css";
+import AddIcon from "@mui/icons-material/Add";
 
 const Dashboard = () => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openExpenseDialog, setOpenExpenseDialog] = useState(false);
   //array of all transactions from transactionResponse api call
   //default value is false because we are conditionally rendering TransactionTable child component
   const [transactions, setTransactions] = useState([]);
@@ -37,7 +40,6 @@ const Dashboard = () => {
         const response = await axios.get("/api/account", {
           params: { email },
         });
-        console.log(response);
         let accountData = response.data;
 
         setAccounts(accountData);
@@ -46,6 +48,7 @@ const Dashboard = () => {
         console.log(error);
       }
     };
+
     getAccounts();
   }, []);
 
@@ -73,6 +76,7 @@ const Dashboard = () => {
           close={() => setOpenDialog(false)}
           setAccounts={setAccounts}
           setAccount={setAccount}
+          accounts={accounts}
         />
       </div>
     </div>
@@ -88,7 +92,9 @@ const Dashboard = () => {
             );
           })}
         </select>
-        <button onClick={() => setOpenDialog(true)}>Click here</button>
+        <Button variant="contained" onClick={() => setOpenDialog(true)}>
+          <AddIcon />
+        </Button>
         <AccountDialog
           show={openDialog}
           close={() => setOpenDialog(false)}
@@ -133,7 +139,19 @@ const Dashboard = () => {
         <TransactionTable transactions={transactions} account={account} />
       ) : (
         <div className="expense-container">
-          <button className="expense-button">Click here</button>
+          <button
+            className="expense-button"
+            onClick={() => setOpenExpenseDialog(true)}
+          >
+            Click here
+          </button>
+          <ExpenseDialog
+            show={openExpenseDialog}
+            close={() => setOpenExpenseDialog(false)}
+            account={account}
+            setTransactions={setTransactions}
+            transactions={transactions}
+          />
         </div>
       )}
     </div>

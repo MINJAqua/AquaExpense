@@ -42,7 +42,6 @@ function ExpenseDialog({
         );
 
         let newExpense = response.data;
-        console.log(setTransactions);
         setTransactions([newExpense]);
 
         resetForm();

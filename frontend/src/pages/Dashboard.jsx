@@ -52,6 +52,26 @@ const Dashboard = () => {
     getAccounts();
   }, []);
 
+  useEffect(() => {
+    if (account) {
+      const getExpenses = async () => {
+        const currentAccount = account._id;
+        console.log(currentAccount);
+        try {
+          const response = await axios.get("/api/expense", {
+            params: { currentAccount },
+          });
+          let expenses = response.data;
+          console.log("expenses", expenses);
+          setTransactions([...expenses]);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getExpenses();
+    }
+  }, [account]);
+
   return !account ? (
     <div className="plaid-container">
       <Plaid

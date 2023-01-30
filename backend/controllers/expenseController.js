@@ -5,7 +5,9 @@ const Expense = require("../models/expenseModel");
 // GET api/expense
 
 const getExpenses = asyncHandler(async (req, res) => {
-  const expenses = await Expense.find();
+  let { currentAccount } = req.query;
+
+  const expenses = await Expense.find({ account_id: currentAccount });
 
   res.status(200).json(expenses);
 });

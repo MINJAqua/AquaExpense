@@ -8,14 +8,7 @@ const Widget = ({ type, account, transactions }) => {
   const AccountBalance = account.balances;
 
   const totalTransactions = () => {
-    let count = 0;
-    transactions.forEach((transaction) => {
-      if (transaction.account_id === account.account_id) {
-        count++;
-      }
-    });
-
-    return count;
+    return transactions.length;
   };
 
   let data;

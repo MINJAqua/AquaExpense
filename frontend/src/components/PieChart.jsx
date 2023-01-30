@@ -4,7 +4,7 @@ import "../css/PieChart.css";
 
 const PieChart = ({ transactions, account }) => {
   const [accountTransactions, setAccountTransactions] = useState([]);
-  const accountId = account.account_id;
+  const accountId = account._id;
 
   useEffect(() => {
     let total = 0;
@@ -12,7 +12,7 @@ const PieChart = ({ transactions, account }) => {
       const categories = transactions
         .filter((item) => item.account_id === accountId)
         .reduce((acc, item) => {
-          const itemIndex = acc.findIndex((i) => i.label === item.category[0]);
+          const itemIndex = acc.findIndex((i) => i.label === item.category);
 
           if (item.amount > 0) total += item.amount;
 
@@ -22,8 +22,8 @@ const PieChart = ({ transactions, account }) => {
             }
           } else if (item.amount >= 0) {
             acc.push({
-              id: item.category[0],
-              label: item.category[0],
+              id: item.category,
+              label: item.category,
               sum: item.amount,
             });
           }

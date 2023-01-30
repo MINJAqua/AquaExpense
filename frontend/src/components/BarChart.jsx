@@ -5,22 +5,20 @@ import "../css/BarChart.css";
 
 function BarChart({ transactions, account }) {
   const [accountTransactions, setAccountTransactions] = useState([]);
-  const accountId = account.account_id;
+  const accountId = account._id;
 
   useEffect(() => {
     const addChartData = () => {
       const categories = transactions
         .filter((item) => item.account_id === accountId)
         .reduce((acc, item) => {
-          const itemIndex = acc.findIndex(
-            (i) => i.category === item.category[0]
-          );
+          const itemIndex = acc.findIndex((i) => i.category === item.category);
 
           if (itemIndex !== -1) {
             acc[itemIndex].value += item.amount;
           } else {
             acc.push({
-              category: item.category[0],
+              category: item.category,
               value: item.amount,
             });
           }

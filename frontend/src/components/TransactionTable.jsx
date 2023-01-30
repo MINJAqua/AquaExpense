@@ -30,7 +30,7 @@ const TransactionTable = ({ transactions, account }) => {
           obj.company = transaction.merchant_name
             ? transaction.merchant_name
             : transaction.name;
-          obj.category = transaction.category[0];
+          obj.category = transaction.category;
           obj.amount = transaction.amount;
           obj.status = transaction.pending ? "Pending" : "Verified";
           transactionsById.push(obj);
@@ -40,8 +40,6 @@ const TransactionTable = ({ transactions, account }) => {
     };
     populateRows();
   }, [accountId, transactions]);
-
-  console.log("transactions", transactions, account);
 
   return (
     <div className="table-container">

@@ -156,7 +156,11 @@ const Dashboard = () => {
         </div>
       ) : null}
       {transactions.length !== 0 && account ? (
-        <TransactionTable transactions={transactions} account={account} />
+        <TransactionTable
+          transactions={transactions}
+          account={account}
+          setTransactions={setTransactions}
+        />
       ) : (
         <div className="expense-container">
           <button

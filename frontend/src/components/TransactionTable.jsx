@@ -7,8 +7,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import { MdAdd } from "react-icons/md";
+import ExpenseDialog from "./ExpenseDialog";
+import moment from "moment";
 
-const TransactionTable = ({ transactions, account }) => {
+const TransactionTable = ({ transactions, account, setTransactions }) => {
+  const [openExpenseDialog, setOpenExpenseDialog] = useState(false);
+
   const [accountTransactions, setAccountTransactions] = useState([]);
   const accountId = account._id;
 
@@ -26,7 +32,7 @@ const TransactionTable = ({ transactions, account }) => {
         const obj = {};
         if (transaction.account_id === accountId) {
           obj.id = transaction.transaction_id;
-          obj.date = transaction.date;
+          obj.date = moment(transaction.date).format("ll");
           obj.company = transaction.merchant_name
             ? transaction.merchant_name
             : transaction.name;
@@ -35,6 +41,7 @@ const TransactionTable = ({ transactions, account }) => {
           obj.status = transaction.pending ? "Pending" : "Verified";
           transactionsById.push(obj);
         }
+        console.log(obj.date);
       });
       setAccountTransactions(transactionsById);
     };
@@ -43,13 +50,34 @@ const TransactionTable = ({ transactions, account }) => {
 
   return (
     <div className="table-container">
-      <div className="table-title">Transactions</div>
+      <div className="table-title">
+        Transactions
+        <IconButton
+          size="small"
+          sx={{
+            justifyContent: "flex-end",
+            float: "right",
+            marginBottom: "15px",
+          }}
+          onClick={() => setOpenExpenseDialog(true)}
+        >
+          <MdAdd />
+        </IconButton>
+        <ExpenseDialog
+          show={openExpenseDialog}
+          close={() => setOpenExpenseDialog(false)}
+          account={account}
+          setTransactions={setTransactions}
+          transactions={transactions}
+        />
+      </div>
+
       <TableContainer component={Paper} className="table">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell sx={tableRowStyle} className="tableRow">
-                DATE
+                DATE CREATED
               </TableCell>
               <TableCell sx={tableRowStyle} className="tableRow">
                 COMPANY

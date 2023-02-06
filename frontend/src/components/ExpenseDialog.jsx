@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+
 import axios from "../axios";
 
 function ExpenseDialog({
@@ -31,6 +32,7 @@ function ExpenseDialog({
     onSubmit: async (values, { resetForm }) => {
       try {
         const accountId = account._id;
+
         const response = await axios.post(
           "/api/expense",
           JSON.stringify(values),
@@ -42,7 +44,7 @@ function ExpenseDialog({
         );
 
         let newExpense = response.data;
-        setTransactions([newExpense]);
+        setTransactions([...transactions, newExpense]);
 
         resetForm();
         close();

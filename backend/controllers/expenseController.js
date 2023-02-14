@@ -67,14 +67,34 @@ const setExpense = asyncHandler(async (req, res) => {
 //PUT api/expense/:id
 
 const updateExpense = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Updated expense ${req.params.id}` });
+  const id = req.params.id;
+  const { amount, category, name, date } = req.body;
+
+  Expense.findByIdAndUpdate(
+    id,
+    { name: name, amount: amount, category: category, date: date },
+    { new: true },
+    (err, expense) => {
+      if (!expense) return res.status(404).json({ error: "Expense not found" });
+      else {
+        res.status(200).json({ message: "Successfully updated", expense });
+      }
+    }
+  );
 });
 
 //@Delete Expense
 //DELETE api/expense/:id
 
 const deleteExpense = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Deleted expense ${req.params.id}` });
+  const id = req.params.id;
+
+  Expense.findByIdAndDelete(id, (err, expense) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!expense) return res.status(404).json({ error: "Expense not found" });
+
+    res.json({ message: `Successfully deleted Expense ${id}` });
+  });
 });
 
 module.exports = { getExpenses, setExpense, updateExpense, deleteExpense };

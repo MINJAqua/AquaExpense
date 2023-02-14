@@ -16,6 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 const Dashboard = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openExpenseDialog, setOpenExpenseDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
   //array of all transactions from transactionResponse api call
   //default value is false because we are conditionally rendering TransactionTable child component
   const [transactions, setTransactions] = useState([]);
@@ -58,16 +59,20 @@ const Dashboard = () => {
         const currentAccount = account._id;
         console.log(currentAccount);
         try {
+          setLoading(true);
           const response = await axios.get("/api/expense", {
             params: { currentAccount },
           });
-          let expenses = response.data;
-          console.log("expenses", expenses);
+          let expenses = response.data.sort(function (a, b) {
+            return new Date(a.date) - new Date(b.date);
+          });
+
           setTransactions([...expenses]);
         } catch (error) {
           console.log(error);
         }
       };
+      setLoading(false);
       getExpenses();
     }
   }, [account]);

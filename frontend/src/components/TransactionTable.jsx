@@ -12,14 +12,17 @@ import IconButton from "@mui/material/IconButton";
 import { MdAdd } from "react-icons/md";
 import { FaTrash, FaEdit, FaCheck, FaClock } from "react-icons/fa";
 import ExpenseDialog from "./ExpenseDialog";
+import EditExpenseDialog from "./EditExpenseDialog";
 import moment from "moment";
 
 const TransactionTable = ({ transactions, account, setTransactions }) => {
   const [openExpenseDialog, setOpenExpenseDialog] = useState(false);
 
+  const [openEditExpenseDialog, setOpenEditExpenseDialog] = useState(false);
+  const [currentId, setCurrentId] = useState("");
+
   //Set the transactions equal to row because accountTransactions is a very long variable lol
   const rows = transactions;
-  console.log(rows);
 
   const tableRowStyle = { fontWeight: "bold" };
 
@@ -54,6 +57,11 @@ const TransactionTable = ({ transactions, account, setTransactions }) => {
   //   populateRows();
   // }, [accountId, transactions]);
 
+  const handleClick = (id) => {
+    setCurrentId(id);
+    setOpenEditExpenseDialog(true);
+  };
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`/api/expense/${id}`);
@@ -61,13 +69,6 @@ const TransactionTable = ({ transactions, account, setTransactions }) => {
       setTransactions((prevTransactions) =>
         prevTransactions.filter((data) => data._id !== id)
       );
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  const handleUpdate = async () => {
-    try {
     } catch (error) {
       throw error;
     }
@@ -137,7 +138,9 @@ const TransactionTable = ({ transactions, account, setTransactions }) => {
                   <IconButton
                     size="small"
                     sx={{ marginRight: "5px" }}
-                    onClick={() => handleUpdate(row._id)}
+                    onClick={() => {
+                      handleClick(row._id);
+                    }}
                   >
                     <FaEdit color="#09b3ec" />
                   </IconButton>
@@ -150,6 +153,14 @@ const TransactionTable = ({ transactions, account, setTransactions }) => {
                 </TableCell>
               </TableRow>
             ))}
+            <EditExpenseDialog
+              show={openEditExpenseDialog}
+              close={() => setOpenEditExpenseDialog(false)}
+              account={account}
+              setTransactions={setTransactions}
+              transactions={transactions}
+              currentId={currentId}
+            />
           </TableBody>
         </Table>
       </TableContainer>

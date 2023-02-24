@@ -68,11 +68,17 @@ const setExpense = asyncHandler(async (req, res) => {
 
 const updateExpense = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  const { amount, category, name, date } = req.body;
+  const { amount, category, name, date, merchant_name } = req.body;
 
   Expense.findByIdAndUpdate(
     id,
-    { name: name, amount: amount, category: category, date: date },
+    {
+      name: name,
+      amount: amount,
+      category: category,
+      date: date,
+      merchant_name: merchant_name,
+    },
     { new: true },
     (err, expense) => {
       if (!expense) return res.status(404).json({ error: "Expense not found" });

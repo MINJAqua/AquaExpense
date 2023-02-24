@@ -57,7 +57,7 @@ const Dashboard = () => {
     if (account) {
       const getExpenses = async () => {
         const currentAccount = account._id;
-        console.log(currentAccount);
+
         try {
           setLoading(true);
           const response = await axios.get("/api/expense", {

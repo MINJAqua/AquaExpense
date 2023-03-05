@@ -48,7 +48,7 @@ function EditExpenseDialog({
         );
 
         let edittedExpense = response.data.expense;
-        console.log(edittedExpense);
+
         setTransactions(
           transactions.map((transaction) =>
             transaction._id === id

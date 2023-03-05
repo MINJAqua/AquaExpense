@@ -26,37 +26,6 @@ const TransactionTable = ({ transactions, account, setTransactions }) => {
 
   const tableRowStyle = { fontWeight: "bold" };
 
-  // //dependency set to accountId to update new transactions if user selects a new account
-  // useEffect(() => {
-  //   const populateRows = () => {
-  //     const allTransactions = transactions;
-  //     const transactionsById = [];
-  //     //populate the transactionsById array with only transactions that match the account selected
-  //     allTransactions.forEach((transaction) => {
-  //       const obj = {};
-
-  //       if (transaction.account_id === accountId) {
-  //         obj.id = transaction._id;
-  //         obj.date = moment(transaction.date).format("ll");
-  //         obj.company = transaction.merchant_name
-  //           ? transaction.merchant_name
-  //           : transaction.name;
-  //         obj.category = transaction.category;
-  //         obj.amount = transaction.amount;
-  //         obj.status = transaction.pending ? "Pending" : "Verified";
-  //         transactionsById.push(obj);
-  //       }
-  //     });
-
-  //     setAccountTransactions(
-  //       transactionsById.sort(function (a, b) {
-  //         return new Date(a.date) - new Date(b.date);
-  //       })
-  //     );
-  //   };
-  //   populateRows();
-  // }, [accountId, transactions]);
-
   const handleClick = (id) => {
     setCurrentId(id);
     setOpenEditExpenseDialog(true);

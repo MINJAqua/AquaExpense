@@ -12,7 +12,16 @@ import {
   MenuItem,
 } from "@mui/material";
 
-function AccountDialog({ show, close, setAccount, setAccounts, accounts }) {
+function AccountDialog({
+  show,
+  close,
+  setAccount,
+  setAccounts,
+  accounts,
+  handleChange,
+}) {
+  const [loading, setLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -20,6 +29,7 @@ function AccountDialog({ show, close, setAccount, setAccounts, accounts }) {
       type: "",
     },
     onSubmit: async (values, { resetForm }) => {
+      setLoading(true);
       try {
         const email = localStorage.getItem("email");
         values.email = email;
@@ -32,9 +42,12 @@ function AccountDialog({ show, close, setAccount, setAccounts, accounts }) {
           }
         );
 
+        setLoading(false);
+
         let newAccount = response.data;
 
         setAccounts([newAccount, ...accounts]);
+
         setAccount(response.data);
 
         resetForm();

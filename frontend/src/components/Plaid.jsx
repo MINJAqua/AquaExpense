@@ -11,9 +11,9 @@ import {
 import "../css/Plaid.css";
 import { FaChevronRight } from "react-icons/fa";
 
-const PlaidLink = ({ setAccounts, setAccount, setTransactions }) => {
+const PlaidLink = () => {
   const [token, setToken] = useState(null);
-  const navigate = useNavigate();
+
   // get a link_token from your API when component mounts
   useEffect(() => {
     const email = localStorage.email;
@@ -30,36 +30,69 @@ const PlaidLink = ({ setAccounts, setAccount, setTransactions }) => {
     createLinkToken();
   }, []);
 
-  const onSuccess = useCallback(
-    (publicToken, metadata) => {
-      const exchangeToken = async (publicToken) => {
-        const email = localStorage.email;
+  const onSuccess = useCallback((publicToken, metadata) => {
+    const exchangeToken = async (publicToken) => {
+      const email = localStorage.email;
+      try {
+        const response = await axios.post("/api/plaid/exchange", {
+          publicToken,
+          email,
+        });
+        const responseData = response.data;
 
-        try {
-          const response = await axios.post("/api/plaid/exchange", {
-            publicToken,
-            email,
-          });
+        const transactionsResponse = await axios.get(
+          "/api/plaid/transactions",
+          { params: { email: email } }
+        );
 
-          const transactionsResponse = await axios.get(
-            "/api/plaid/transactions",
-            { params: { email: email } }
+        const userPlaidAccounts = transactionsResponse.data.accounts.map(
+          ({ balances, ...accountData }) => ({
+            ...accountData,
+            balances: balances.current,
+          })
+        );
+
+        const userPlaidTransactions =
+          transactionsResponse.data.transactions.map(
+            ({
+              account_id,
+              amount,
+              iso_currency_code,
+              category,
+              category_id,
+              date,
+              name,
+              merchant_name,
+              pending,
+            }) => ({
+              account_id,
+              amount,
+              iso_currency_code,
+              category: category[0],
+              category_id,
+              date,
+              name,
+              merchant_name,
+              pending,
+            })
           );
-          const userTransactions = transactionsResponse.data;
 
-          setTransactions(userTransactions.transactions);
-          setAccounts(userTransactions.accounts);
-          setAccount(userTransactions.accounts[0]);
-          console.log(userTransactions);
-          navigate("/dashboard");
-        } catch (error) {
-          console.log(error, "YOU FAILED TO GET ACCESS TOKEN");
-        }
-      };
-      exchangeToken(publicToken);
-    },
-    [navigate, setAccount, setAccounts, setTransactions]
-  );
+        await axios.post("/api/account/plaidAccount", {
+          accounts: userPlaidAccounts,
+          email: email,
+        });
+
+        await axios.post("/api/expense/plaidExpense", {
+          expenses: userPlaidTransactions,
+        });
+
+        window.location.reload();
+      } catch (error) {
+        console.log(error, "YOU FAILED TO GET ACCESS TOKEN");
+      }
+    };
+    exchangeToken(publicToken);
+  }, []);
 
   const config = {
     token,

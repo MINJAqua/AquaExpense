@@ -5,12 +5,15 @@ import "../css/PieChart.css";
 const PieChart = ({ transactions, account }) => {
   const [accountTransactions, setAccountTransactions] = useState([]);
   const accountId = account._id;
+  const plaidId = account.account_id;
 
   useEffect(() => {
     let total = 0;
     const addChartData = () => {
       const categories = transactions
-        .filter((item) => item.account_id === accountId)
+        .filter(
+          (item) => item.account_id === accountId || item.account_id === plaidId
+        )
         .reduce((acc, item) => {
           const itemIndex = acc.findIndex((i) => i.label === item.category);
 

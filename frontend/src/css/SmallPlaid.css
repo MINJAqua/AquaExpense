@@ -95,13 +95,12 @@
 }
 
 .small-plaid-button:hover .small-arrow-icon {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   text-align: left;
   cursor: pointer;
   fill: currentColor;
   color: #ffffff;
   box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
+
   text-rendering: optimizeLegibility;
   margin: 0;
   padding: 0;
@@ -118,13 +117,12 @@
 }
 
 .small-arrow-icon {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   cursor: pointer;
   text-align: left;
   fill: currentColor;
   color: #ffffff;
   box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
+
   text-rendering: optimizeLegibility;
   margin: 0;
   padding: 0;

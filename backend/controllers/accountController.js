@@ -53,8 +53,11 @@ const createAccount = asyncHandler(async (req, res) => {
     type,
   });
 
+  const newId = account._id.toString();
+
   if (account) {
     res.status(201).json({
+      _id: newId,
       user_id: account.user_id,
       account_id: account.account_id,
       balances: account.balances,
@@ -63,11 +66,36 @@ const createAccount = asyncHandler(async (req, res) => {
       official_name: account.official_name,
       type: account.type,
     });
+
     console.log("account created");
   } else {
     res.status(400);
     throw new Error("Invalid Account");
   }
+});
+
+//@Create Plaid Account
+// POST api/account/plaidAccount
+
+const createPlaidAccounts = asyncHandler(async (req, res) => {
+  const plaidAccounts = req.body.accounts;
+  const email = req.body.email;
+
+  const user = await User.findOne({ email: email });
+  const userId = user._id.toString();
+
+  let accounts = plaidAccounts.map((obj) => ({ ...obj, user_id: userId }));
+
+  console.log(accounts);
+
+  const newPlaidAccounts = Account.insertMany(accounts, (err, docs) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json(err);
+    } else {
+      res.status(201).json({ plaidAccounts });
+    }
+  });
 });
 
 //@Update Account
@@ -84,4 +112,10 @@ const deleteAccount = asyncHandler(async (req, res) => {
   res.status(200).json({ message: `Deleted Account ${req.params.id}` });
 });
 
-module.exports = { getAccounts, createAccount, updateAccount, deleteAccount };
+module.exports = {
+  getAccounts,
+  createAccount,
+  createPlaidAccounts,
+  updateAccount,
+  deleteAccount,
+};

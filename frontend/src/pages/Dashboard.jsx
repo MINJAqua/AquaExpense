@@ -16,7 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 const Dashboard = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openExpenseDialog, setOpenExpenseDialog] = useState(false);
-  const [loading, setLoading] = useState(false);
+
   //array of all transactions from transactionResponse api call
   //default value is false because we are conditionally rendering TransactionTable child component
   const [transactions, setTransactions] = useState([]);
@@ -30,7 +30,6 @@ const Dashboard = () => {
 
   const handleChange = (e) => {
     const handleChangeAccount = JSON.parse(e.target.value);
-
     setAccount(handleChangeAccount);
   };
 
@@ -59,10 +58,10 @@ const Dashboard = () => {
         const currentAccount = account._id;
 
         try {
-          setLoading(true);
           const response = await axios.get("/api/expense", {
             params: { currentAccount },
           });
+
           let expenses = response.data.sort(function (a, b) {
             return new Date(a.date) - new Date(b.date);
           });
@@ -72,7 +71,7 @@ const Dashboard = () => {
           console.log(error);
         }
       };
-      setLoading(false);
+
       getExpenses();
     }
   }, [account]);
@@ -102,6 +101,7 @@ const Dashboard = () => {
           setAccounts={setAccounts}
           setAccount={setAccount}
           accounts={accounts}
+          handleChange={handleChange}
         />
       </div>
     </div>
@@ -109,9 +109,9 @@ const Dashboard = () => {
     <div className="dashboard">
       <div className="select-accounts-container">
         <select className="select-accounts" onChange={handleChange}>
-          {accounts.map((account, index) => {
+          {accounts.map((account) => {
             return (
-              <option value={JSON.stringify(account)} key={index}>
+              <option value={JSON.stringify(account)} key={account._id}>
                 {account.name}
               </option>
             );
@@ -128,6 +128,8 @@ const Dashboard = () => {
           accounts={accounts}
         />
         <SmallPlaid
+          transactions={transactions}
+          accounts={accounts}
           setAccounts={setAccounts}
           setAccount={setAccount}
           setTransactions={setTransactions}

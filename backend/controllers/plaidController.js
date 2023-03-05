@@ -16,7 +16,6 @@ const configuration = new Configuration({
 const plaidClient = new PlaidApi(configuration);
 
 const createToken = asyncHandler(async (req, res) => {
-  console.log("createToken function has started");
   const { email } = req.body;
 
   //find user in the database
@@ -24,7 +23,6 @@ const createToken = asyncHandler(async (req, res) => {
 
   //grab the unique id for the user
   const clientUserId = user._id.toString();
-  console.log("This is the clientUserId", clientUserId);
 
   //This request object gets plugged into plaidClient.linkTokenCreate
   const request = {
@@ -70,7 +68,6 @@ const exchangeToken = asyncHandler(async (req, res) => {
       { access_token: response.data.access_token }
     );
 
-    //console.log(responseData);
     res.send(responseData);
   } catch (error) {
     console.log(error);

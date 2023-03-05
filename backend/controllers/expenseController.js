@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Expense = require("../models/expenseModel");
+const Account = require("../models/accountModel");
 
 //@Get Expense
 // GET api/expense
@@ -7,7 +8,18 @@ const Expense = require("../models/expenseModel");
 const getExpenses = asyncHandler(async (req, res) => {
   let { currentAccount } = req.query;
 
-  const expenses = await Expense.find({ account_id: currentAccount });
+  const plaidAccountId = await Account.findById({ _id: currentAccount });
+  console.log("plaid account id", plaidAccountId.account_id);
+
+  // const expenses = await Expense.find(
+  //   { account_id: plaidAccountId.account_id } || { account_id: currentAccount }
+  // );
+  const expenses = await Expense.find({
+    $or: [
+      { account_id: plaidAccountId.account_id },
+      { account_id: currentAccount },
+    ],
+  });
 
   res.status(200).json(expenses);
 });
@@ -45,8 +57,11 @@ const setExpense = asyncHandler(async (req, res) => {
     pending,
   });
 
+  let expenseId = expense.id.toString();
+
   if (expense) {
     res.status(201).json({
+      _id: expenseId,
       account_id: expense.account_id,
       amount: expense.amount,
       iso_currency_code: expense.iso_currency_code,
@@ -61,6 +76,21 @@ const setExpense = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Invalid Expense");
   }
+});
+
+//@Create expenses with Plaid Api
+//POST api/expense/plaid
+const setPlaidExpense = asyncHandler(async (req, res) => {
+  const plaidExpense = req.body.expenses;
+
+  const newPlaidTransactions = Expense.insertMany(plaidExpense, (err, docs) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json(err);
+    } else {
+      res.status(201).json({ plaidExpense });
+    }
+  });
 });
 
 //@Update Expense
@@ -103,4 +133,10 @@ const deleteExpense = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { getExpenses, setExpense, updateExpense, deleteExpense };
+module.exports = {
+  getExpenses,
+  setExpense,
+  setPlaidExpense,
+  updateExpense,
+  deleteExpense,
+};

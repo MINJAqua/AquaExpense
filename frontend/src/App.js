@@ -22,9 +22,9 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/Profile" element={<Profile />} />
-            <Route path="/Settings" element={<Settings />} />
-            <Route path="/Notifications" element={<Notifications />} />
+            {/* <Route path="/Profile" element={<Profile />} /> */}
+            {/* <Route path="/Settings" element={<Settings />} />
+            <Route path="/Notifications" element={<Notifications />} /> */}
           </Routes>
         </div>
       </div>

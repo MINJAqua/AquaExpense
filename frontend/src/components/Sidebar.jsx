@@ -10,6 +10,11 @@ const Sidebar = () => {
 
   const location = useLocation();
 
+  const signOut = () => {
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+  };
+
   if (location.pathname === "/signup" || location.pathname === "/") {
     return null;
   }
@@ -31,12 +36,12 @@ const Sidebar = () => {
           </li>
 
           {/* <p className="title">User</p> */}
-          <li>
+          {/* <li>
             <AccountCircleIcon className="icon" />
             <Link className="link" to="/Profile">
               Profile
             </Link>
-          </li>
+          </li> */}
           {/* <li>
             <SettingsIcon className="icon" />
             <Link className="link" to="/Settings">
@@ -45,7 +50,7 @@ const Sidebar = () => {
           </li> */}
           <li>
             <LoginIcon className="icon" />
-            <Link className="link" to="/">
+            <Link onClick={signOut} className="link" to="/">
               Logout
             </Link>
           </li>

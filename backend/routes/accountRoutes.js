@@ -7,6 +7,7 @@ const {
   deleteAccount,
   createPlaidAccounts,
 } = require("../controllers/accountController");
+const { protect } = require("../middleware/authMiddleware");
 
 router.route("/").get(getAccounts).post(createAccount);
 router.route("/plaidAccount").post(createPlaidAccounts);

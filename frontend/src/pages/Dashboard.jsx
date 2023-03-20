@@ -9,7 +9,7 @@ import ExpenseDialog from "../components/ExpenseDialog";
 import Plaid from "../components/Plaid";
 import SmallPlaid from "../components/SmallPlaid";
 import { FaPlusCircle } from "react-icons/fa";
-import { Divider, Typography, Button } from "@mui/material";
+import { Divider, Typography, Button, Paper } from "@mui/material";
 import "../css/Dashboard.css";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -78,32 +78,51 @@ const Dashboard = () => {
 
   return !account ? (
     <div className="plaid-container">
-      <Plaid
-        setAccounts={setAccounts}
-        setAccount={setAccount}
-        setTransactions={setTransactions}
-      />
-      <br />
-      <Divider sx={{ padding: 3 }}>
-        <Typography sx={{ fontSize: "1.25rem" }} color="textSecondary">
-          or
-        </Typography>
-      </Divider>
-      <br />
-      <div className="button-container">
-        <button className="add-expense" onClick={() => setOpenDialog(true)}>
-          Create your expenese {""}
-          <FaPlusCircle />
-        </button>
-        <AccountDialog
-          show={openDialog}
-          close={() => setOpenDialog(false)}
-          setAccounts={setAccounts}
-          setAccount={setAccount}
-          accounts={accounts}
-          handleChange={handleChange}
-        />
-      </div>
+      <Paper
+        elevation={10}
+        sx={{
+          paddingTop: "2rem",
+          paddingRight: "4rem",
+          paddingLeft: "4rem",
+          paddingBottom: "2.5rem",
+          borderRadius: 3,
+        }}
+      >
+        <div className="title">
+          <Typography variant="h4" sx={{ mb: 5, fontWeight: 600 }}>
+            Create a Profile
+          </Typography>
+        </div>
+        <div className="plaid-button-container">
+          <Plaid
+            setAccounts={setAccounts}
+            setAccount={setAccount}
+            setTransactions={setTransactions}
+          />
+        </div>
+
+        <br />
+        <Divider sx={{ padding: 3 }}>
+          <Typography sx={{ fontSize: "1.25rem" }} color="textSecondary">
+            or
+          </Typography>
+        </Divider>
+        <br />
+        <div className="button-container">
+          <button className="add-expense" onClick={() => setOpenDialog(true)}>
+            Create an Account {""}
+            <FaPlusCircle />
+          </button>
+          <AccountDialog
+            show={openDialog}
+            close={() => setOpenDialog(false)}
+            setAccounts={setAccounts}
+            setAccount={setAccount}
+            accounts={accounts}
+            handleChange={handleChange}
+          />
+        </div>
+      </Paper>
     </div>
   ) : (
     <div className="dashboard">
@@ -118,7 +137,15 @@ const Dashboard = () => {
           })}
         </select>
         <Button variant="contained" onClick={() => setOpenDialog(true)}>
-          <AddIcon />
+          <Typography
+            sx={{ marginRight: "10px" }}
+            variant="button"
+            fontWeight="bold"
+          >
+            {" "}
+            Add Account{" "}
+          </Typography>
+          <AddIcon fontSize="small" />
         </Button>
         <AccountDialog
           show={openDialog}
@@ -174,8 +201,9 @@ const Dashboard = () => {
             className="expense-button"
             onClick={() => setOpenExpenseDialog(true)}
           >
-            Click here
+            Add an Expense
           </button>
+
           <ExpenseDialog
             show={openExpenseDialog}
             close={() => setOpenExpenseDialog(false)}

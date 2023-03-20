@@ -70,7 +70,9 @@ function ExpenseDialog({
     >
       <DialogTitle>Add an Expense</DialogTitle>
       <DialogContent>
-        <DialogContentText>Create an Expense</DialogContentText>
+        <DialogContentText>
+          Create an expense and then we will store it.
+        </DialogContentText>
         <TextField
           autoFocus
           margin="dense"

@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 
 const Profile = () => {
   return (
@@ -8,13 +8,16 @@ const Profile = () => {
           sx={{
             display: "flex",
             justifyContent: "center",
-            width: "50%",
+            width: "70%",
             height: "50%",
             flexDirection: "column",
             margin: "10rem",
           }}
         >
-          <h1>Profile</h1>
+          <Typography variant="h2" fontWeight={600}>
+            Name
+          </Typography>
+          <p>HEllo</p>
         </Paper>
       </div>
     </div>

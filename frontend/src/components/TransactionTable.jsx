@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
-import { MdAdd } from "react-icons/md";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { FaTrash, FaEdit, FaCheck, FaClock } from "react-icons/fa";
 import ExpenseDialog from "./ExpenseDialog";
 import EditExpenseDialog from "./EditExpenseDialog";
@@ -56,7 +56,7 @@ const TransactionTable = ({ transactions, account, setTransactions }) => {
           }}
           onClick={() => setOpenExpenseDialog(true)}
         >
-          <MdAdd color="#09b3ec" />
+          <AddCircleIcon sx={{ color: "#09b3ec", fontSize: 30 }} />
         </IconButton>
         <ExpenseDialog
           show={openExpenseDialog}

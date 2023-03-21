@@ -32,4 +32,8 @@ This project was made using the MERN stack:
 * Then click the box to agree that you accepted the terms and conditions and after that it will lead you back to the dashboard with all the accounts you connected to
 
 ### If creating a profile manually
+* Just fill out the form, adding a name, a starting balance, and the type of profile
+
+### Upon finishing creating a profile with accounts
+* Add a transaction by clicking on the button and filling the form out. After having a single transaction the user should be able to see graphs about their transactions.
 

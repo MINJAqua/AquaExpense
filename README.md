@@ -38,6 +38,6 @@ This project was made using the MERN stack:
 * Add a transaction by clicking on the button and filling the form out. After having a single transaction the user should be able to see graphs about their transactions.
 
 ## Credit
-Max Zhao
-Stacey Ali
-Junyi Li
+*Max Zhao
+*Stacey Ali
+*Junyi Li

@@ -37,7 +37,7 @@ This project was made using the MERN stack:
 ### Upon finishing creating a profile with accounts
 * Add a transaction by clicking on the button and filling the form out. After having a single transaction the user should be able to see graphs about their transactions.
 
-## Credit
+## Credits
 * Max Zhao
 * Stacey Ali
 * Junyi Li

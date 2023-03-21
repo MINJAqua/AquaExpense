@@ -25,4 +25,4 @@ This project was made using the MERN stack:
 * Sign up or login if you have an account already. There is no email verification so any email could work
 * After logging in, there are two buttons to create a profile, either through plaid or manually creating an account yourself
 
-# If creating profile through Plaid
+### If creating profile through Plaid

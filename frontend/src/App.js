@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import "./css/App.css";
 import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
-import Notifications from "./pages/Notifications";
+// import Navbar from "./components/Navbar";
+// import Profile from "./pages/Profile";
+// import Settings from "./pages/Settings";
+// import Notifications from "./pages/Notifications";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 

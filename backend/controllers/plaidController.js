@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler");
 const moment = require("moment");
 const User = require("../models/userModel");
 const { Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
-const nodemon = require("nodemon");
 
 const configuration = new Configuration({
   basePath: PlaidEnvironments.sandbox,

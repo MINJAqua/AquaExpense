@@ -10,8 +10,6 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { useEffect } from "react";
-
 import axios from "../axios";
 import { useState } from "react";
 
@@ -22,8 +20,6 @@ function ExpenseDialog({
   setTransactions,
   transactions,
 }) {
-  const [loading, setLoading] = useState(false);
-
   const formik = useFormik({
     initialValues: {
       amount: "",

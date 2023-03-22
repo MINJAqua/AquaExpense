@@ -38,7 +38,6 @@ const PlaidLink = () => {
           publicToken,
           email,
         });
-        const responseData = response.data;
 
         const transactionsResponse = await axios.get(
           "/api/plaid/transactions",

@@ -41,7 +41,7 @@ const PieChart = ({ transactions, account }) => {
       setAccountTransactions(categories);
     };
     addChartData();
-  }, [accountId, transactions]);
+  }, [accountId, transactions, plaidId]);
 
   let data = accountTransactions;
 
